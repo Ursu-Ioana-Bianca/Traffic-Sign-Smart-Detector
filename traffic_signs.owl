@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:owl="http://www.w3.org/2002/07/owl#"
+         xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+         xmlns:traffic="http://www.example.org/traffic-signs#"
+         xmlns:dbpedia="http://dbpedia.org/resource/"
+         xmlns:schema="http://schema.org/"
+         xmlns:UNITS="http://qudt.org/vocab/unit#"
+         xmlns:ISO="http://purl.org/iso/standard#">
+
+  <!-- Ontology Metadata -->
+  <owl:Ontology rdf:about="http://www.example.org/traffic-signs">
+    <rdfs:comment>An extended ontology for traffic signs detection and classification, incorporating schema.org, DBpedia references, and additional legal interpretations.</rdfs:comment>
+    <rdfs:label>Extended Traffic Signs Ontology</rdfs:label>
+  </owl:Ontology>
+
+  <!-- General Classes -->
+  <owl:Class rdf:about="traffic:RoadSign">
+    <rdfs:label>Road Sign</rdfs:label>
+    <rdfs:comment>A general class for all types of road signs.</rdfs:comment>
+  </owl:Class>
+
+  <!-- Warning Signs -->
+  <owl:Class rdf:about="traffic:WarningSign">
+    <rdfs:subClassOf rdf:resource="traffic:RoadSign"/>
+    <rdfs:label>Warning Sign</rdfs:label>
+    <rdfs:comment>Signs that warn drivers of potential hazards.</rdfs:comment>
+  </owl:Class>
+
+  <!-- Adding all warning signs -->
+  <owl:Class rdf:about="traffic:CrossroadWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Crossroad Warning</rdfs:label>
+    <rdfs:comment>Warning of an upcoming intersection or crossroad.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:SharpCurveWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Sharp Curve Warning</rdfs:label>
+    <rdfs:comment>Warns of sharp turns ahead.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:PedestrianCrossingWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Pedestrian Crossing Warning</rdfs:label>
+    <rdfs:comment>Indicates a pedestrian crossing ahead.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:AnimalCrossingWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Animal Crossing Warning</rdfs:label>
+    <rdfs:comment>Warns of potential wild animal crossings.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:SlipperyRoadWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Slippery Road Warning</rdfs:label>
+    <rdfs:comment>Indicates slippery road conditions, typically during rain or ice.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:DoubleCurveWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Double Curve Warning</rdfs:label>
+    <rdfs:comment>Warns of double or dangerous curves ahead.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:RailwayCrossingWithoutBarrierWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Railway Crossing Without Barrier Warning</rdfs:label>
+    <rdfs:comment>Indicates an unguarded railway crossing ahead.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:RailwayCrossingWithBarrierWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Railway Crossing With Barrier Warning</rdfs:label>
+    <rdfs:comment>Indicates a guarded railway crossing ahead.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:RockfallWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Rockfall Warning</rdfs:label>
+    <rdfs:comment>Warns of areas with falling rocks.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:NarrowRoadWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Narrow Road Warning</rdfs:label>
+    <rdfs:comment>Indicates a narrowing road ahead.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:ChildrenCrossingWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Children Crossing Warning</rdfs:label>
+    <rdfs:comment>Warns of areas frequented by children, such as near schools.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:RoadworksWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Roadworks Warning</rdfs:label>
+    <rdfs:comment>Indicates ongoing roadworks ahead.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:BumpyRoadWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Bumpy Road Warning</rdfs:label>
+    <rdfs:comment>Warns of uneven or bumpy road conditions.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:SteepDescentWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Steep Descent Warning</rdfs:label>
+    <rdfs:comment>Warns of steep downhill slopes ahead.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:SteepAscentWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Steep Ascent Warning</rdfs:label>
+    <rdfs:comment>Warns of steep uphill slopes ahead.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:LowFlyingAircraftWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Low Flying Aircraft Warning</rdfs:label>
+    <rdfs:comment>Indicates areas where low-flying aircraft may be present.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:CyclistCrossingWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Cyclist Crossing Warning</rdfs:label>
+    <rdfs:comment>Warns of bicycle crossings ahead.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:FloodingWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Flooding Warning</rdfs:label>
+    <rdfs:comment>Indicates areas prone to flooding.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:QuayWarning">
+    <rdfs:subClassOf rdf:resource="traffic:WarningSign"/>
+    <rdfs:label>Quay Warning</rdfs:label>
+    <rdfs:comment>Warns of proximity to a quay or riverbank without barriers.</rdfs:comment>
+  </owl:Class>
+
+  <!-- Prohibitory Signs -->
+  <owl:Class rdf:about="traffic:ProhibitorySign">
+    <rdfs:subClassOf rdf:resource="traffic:RoadSign"/>
+    <rdfs:label>Prohibitory Sign</rdfs:label>
+    <rdfs:comment>Signs that indicate prohibited actions (e.g., no entry, no parking).</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:NoEntrySign">
+    <rdfs:subClassOf rdf:resource="traffic:ProhibitorySign"/>
+    <rdfs:label>No Entry Sign</rdfs:label>
+    <rdfs:comment>Indicates that entry is prohibited for all vehicles.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:NoParkingSign">
+    <rdfs:subClassOf rdf:resource="traffic:ProhibitorySign"/>
+    <rdfs:label>No Parking Sign</rdfs:label>
+    <rdfs:comment>Prohibits parking in a specific area.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:NoOvertakingSign">
+    <rdfs:subClassOf rdf:resource="traffic:ProhibitorySign"/>
+    <rdfs:label>No Overtaking Sign</rdfs:label>
+    <rdfs:comment>Prohibits overtaking on certain road segments.</rdfs:comment>
+  </owl:Class>
+
+  <!-- Priority Signs -->
+  <owl:Class rdf:about="traffic:PrioritySign">
+    <rdfs:subClassOf rdf:resource="traffic:RoadSign"/>
+    <rdfs:label>Priority Sign</rdfs:label>
+    <rdfs:comment>Indicates priority rules at intersections or road segments.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:StopSign">
+    <rdfs:subClassOf rdf:resource="traffic:PrioritySign"/>
+    <rdfs:label>Stop Sign</rdfs:label>
+    <rdfs:comment>Requires vehicles to come to a complete stop.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:YieldSign">
+    <rdfs:subClassOf rdf:resource="traffic:PrioritySign"/>
+    <rdfs:label>Yield Sign</rdfs:label>
+    <rdfs:comment>Indicates that drivers must yield to traffic on the main road.</rdfs:comment>
+  </owl:Class>
+
+  <!-- Obligatory Signs -->
+  <owl:Class rdf:about="traffic:ObligatorySign">
+    <rdfs:subClassOf rdf:resource="traffic:RoadSign"/>
+    <rdfs:label>Obligatory Sign</rdfs:label>
+    <rdfs:comment>Specifies mandatory actions for drivers (e.g., turn left, chains required).</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:TurnLeftSign">
+    <rdfs:subClassOf rdf:resource="traffic:ObligatorySign"/>
+    <rdfs:label>Turn Left Sign</rdfs:label>
+    <rdfs:comment>Indicates that drivers must turn left.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:SnowChainsRequiredSign">
+    <rdfs:subClassOf rdf:resource="traffic:ObligatorySign"/>
+    <rdfs:label>Snow Chains Required Sign</rdfs:label>
+    <rdfs:comment>Indicates that snow chains must be used.</rdfs:comment>
+  </owl:Class>
+
+  <!-- Informational Signs -->
+  <owl:Class rdf:about="traffic:InformativeSign">
+    <rdfs:subClassOf rdf:resource="traffic:RoadSign"/>
+    <rdfs:label>Informative Sign</rdfs:label>
+    <rdfs:comment>Signs that provide useful information to drivers.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:HospitalSign">
+    <rdfs:subClassOf rdf:resource="traffic:InformativeSign"/>
+    <rdfs:label>Hospital Sign</rdfs:label>
+    <rdfs:comment>Indicates the presence of a hospital nearby.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:TouristAttractionSign">
+    <rdfs:subClassOf rdf:resource="traffic:InformativeSign"/>
+    <rdfs:label>Tourist Attraction Sign</rdfs:label>
+    <rdfs:comment>Indicates the presence of a tourist attraction.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:about="traffic:ParkingInformationSign">
+    <rdfs:subClassOf rdf:resource="traffic:InformativeSign"/>
+    <rdfs:label>Parking Information Sign</rdfs:label>
+    <rdfs:comment>Provides information about parking availability or regulations.</rdfs:comment>
+  </owl:Class>
+
+</rdf:RDF>
