@@ -649,6 +649,15 @@
     
 
 
+    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/WarningSigns -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/WarningSigns">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#TrafficSignCategory"/>
+        <rdfs:label xml:lang="en">WarningSigns</rdfs:label>
+    </owl:Class>
+    
+
+
     <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AREA -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AREA">
@@ -807,7 +816,7 @@
     <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#CrossingWarning -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#CrossingWarning">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#WarningSigns"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/WarningSigns"/>
     </owl:Class>
     
 
@@ -815,7 +824,7 @@
     <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#CurveWarning -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#CurveWarning">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#WarningSigns"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/WarningSigns"/>
         <rdfs:label xml:lang="en">CurveWarning</rdfs:label>
     </owl:Class>
     
@@ -916,6 +925,7 @@
 
     <owl:Class rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndPriorityRoad">
         <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
+        <rdfs:label>EndPriorityRoad</rdfs:label>
     </owl:Class>
     
 
@@ -1156,7 +1166,7 @@
     <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ObstacleWarning -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ObstacleWarning">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#WarningSigns"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/WarningSigns"/>
         <rdfs:label xml:lang="en">ObstacleWarning</rdfs:label>
     </owl:Class>
     
@@ -1239,7 +1249,7 @@
     <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#RoadCondtionWarning -->
 
     <owl:Class rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#RoadCondtionWarning">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#WarningSigns"/>
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/WarningSigns"/>
         <rdfs:label xml:lang="en">RoadConditionWarning</rdfs:label>
     </owl:Class>
     
@@ -1479,14 +1489,6 @@
 
     <owl:Class rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#VehicleType">
         <rdfs:label xml:lang="en">TrafficParticipants</rdfs:label>
-    </owl:Class>
-    
-
-
-    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#WarningSigns -->
-
-    <owl:Class rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#WarningSigns">
-        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#TrafficSignCategory"/>
     </owl:Class>
     
 
@@ -2118,7 +2120,6 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#End30SpeedZone">
         <rdf:type rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/be30e720f8277a94cc8b353852b26209.png</signs:signImageURL>
     </owl:NamedIndividual>
     
 
@@ -2127,7 +2128,6 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndAllRestrictions">
         <rdf:type rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/3638540e8d8414f876fc2bce150baa2c.png</signs:signImageURL>
     </owl:NamedIndividual>
     
 
@@ -2136,7 +2136,6 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndHighway">
         <rdf:type rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/83be4f126b1a17488c78a95b68fa31c4.png</signs:signImageURL>
     </owl:NamedIndividual>
     
 
@@ -2145,7 +2144,6 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndMinimumMandatorySpeed">
         <rdf:type rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/279dac7ca256dd4a317c67f31eac4998.png</signs:signImageURL>
     </owl:NamedIndividual>
     
 
@@ -2154,7 +2152,6 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndNoOvertaking">
         <rdf:type rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/1c0162b57cda5f7142cbe66c1fe2a17d.png</signs:signImageURL>
     </owl:NamedIndividual>
     
 
@@ -2163,16 +2160,6 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndPedestrianZone">
         <rdf:type rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/ba1e5f38cf6081e23c5b814cac732375.png</signs:signImageURL>
-    </owl:NamedIndividual>
-    
-
-
-    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndPriorityRoad -->
-
-    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndPriorityRoad">
-        <rdf:type rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/55c860cca6371ec972209a122f913222.png</signs:signImageURL>
     </owl:NamedIndividual>
     
 
@@ -2181,7 +2168,6 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndResidentialArea">
         <rdf:type rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/32f9a760c17e4bdd585680f853ffae2b.png</signs:signImageURL>
     </owl:NamedIndividual>
     
 
@@ -2190,7 +2176,6 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndSpeedLimit">
         <rdf:type rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/dbc7ea15e31b16f8c9140966a3bbbf96.png</signs:signImageURL>
     </owl:NamedIndividual>
     
 
@@ -2199,7 +2184,6 @@
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndTunnel">
         <rdf:type rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndRestriction"/>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/574648ee5fbee5efe409050b48ce40a7.png</signs:signImageURL>
     </owl:NamedIndividual>
     
 
@@ -2724,7 +2708,7 @@
         <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ObstacleWarningSign"/>
         <signs:description>If the bridge is raised, stopping is mandatory. On the bridge, all maneuvers are prohibited (overtaking, except for motorcycles without sidecars, motorless vehicles, and mopeds, when visibility is over 20 meters and the road width is greater than 7 meters, stopping, parking, reversing, turning).</signs:description>
         <signs:distanceFromReferencePoint>100-200</signs:distanceFromReferencePoint>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/ba55e3fed17f515cd2c1bbdbfbec2300.png</signs:signImageURL>
+        <signs:signImageURL>https://www.codrutier.ro/storage/images/1b4152cd5236b17e990dc364e6eae398.png</signs:signImageURL>
         <signs:signName>Mobile Bridge</signs:signName>
         <rdfs:label xml:lang="en">MobileBridgeSign</rdfs:label>
     </owl:NamedIndividual>
@@ -3902,7 +3886,7 @@
         <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Rectangular"/>
         <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#FullPrioritySign"/>
         <signs:description>It is placed at the beginning of a priority road or before intersections with non-priority roads. This sign informs the driver that they have priority in upcoming intersections. Roads intersecting the priority road will have either a &quot;Stop&quot; or &quot;Give Way&quot; sign installed. When placed before an intersection, this sign may be accompanied by an additional panel indicating the direction of the priority road.</signs:description>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/b1e53889abcb33aae14bf6ad0526d318.png</signs:signImageURL>
+        <signs:signImageURL>https://www.codrutier.ro/storage/images/59218f78810b266d529e2ef90adffa43.png</signs:signImageURL>
         <signs:signName>Priority Over Oncoming Traffic</signs:signName>
         <rdfs:label xml:lang="en">PriorityOverOncomingTrafficSign</rdfs:label>
     </owl:NamedIndividual>
@@ -3950,7 +3934,6 @@
         </rdf:type>
         <signs:appliesTo rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
         <signs:category rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#PrioritySigns"/>
-        <signs:hasAssociatedSign rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndPriorityRoad"/>
         <signs:hasBackgroundColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
         <signs:hasContourColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Black"/>
         <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Diamond"/>
@@ -4943,9 +4926,6 @@ In the restricted area, stopping is also prohibited, which means parking, U-turn
     <rdf:Description rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndPedestrianZone">
         <rdfs:label>EndPedestrianZone</rdfs:label>
     </rdf:Description>
-    <rdf:Description rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndPriorityRoad">
-        <rdfs:label>EndPriorityRoad</rdfs:label>
-    </rdf:Description>
     <rdf:Description rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndResidentialArea">
         <rdfs:label>EndResidentialArea</rdfs:label>
     </rdf:Description>
@@ -5023,9 +5003,6 @@ In the restricted area, stopping is also prohibited, which means parking, U-turn
     </rdf:Description>
     <rdf:Description rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#TwoWayTraffic">
         <rdfs:label>TwoWayTraffic</rdfs:label>
-    </rdf:Description>
-    <rdf:Description rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#WarningSigns">
-        <rdfs:label xml:lang="en">WarningSigns</rdfs:label>
     </rdf:Description>
     <rdf:Description rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White">
         <rdfs:label xml:lang="en">White</rdfs:label>
