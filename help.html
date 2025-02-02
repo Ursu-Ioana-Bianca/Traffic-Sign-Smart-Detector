@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - Traffic Sign Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #333 50%, orange 50%);
+            overflow: hidden;
+            position: relative;
+        }
+        .help-container {
+            position: absolute;
+            padding: 20px;
+            border-radius: 15px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0.285), rgba(114, 114, 114, 0.685));
+            box-shadow: 
+                inset 0 1px 5px rgba(255, 255, 255, 0.6),
+                0 8px 16px rgba(0, 0, 0, 0.2),
+                0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            width: 400px;
+            color: rgb(255, 255, 255);
+            text-align: center;
+            font-size: 25px;
+        }
+        .top-left {
+            top: 120px;
+            left: 150px;
+        }
+        .bottom-right {
+            bottom: 150px;
+            right: 150px;
+            width: 400px;
+            height: 300px;
+        }
+        .help-container h2 {
+            color: rgb(6, 6, 6);
+        }
+        .help-container p, .help-container ul {
+            font-size: 16px;
+            line-height: 1.5;
+            text-align: left;
+            font-size: 20px;
+        }
+        .header {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 10;
+        }
+        .header button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border: 2px solid white;
+            background-color: transparent;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .header button:hover {
+            background-color: orange;
+            color: white;
+        }
+
+
+        .gradient-bar-vertical {
+            position: fixed;
+            left: calc(100% - 145px);
+            width: 70px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, gray);
+            z-index: -100;
+        }
+
+        .gradient-bar-horizontal {
+            position: fixed;
+            top: calc(100% - 145px);
+            left: 0;
+            width: 100%;
+            height: 70px;
+            background: linear-gradient(to right, transparent, gray);
+            z-index: -100;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button onclick="window.location.href='index.html'">Home</button>
+    </div>
+
+    <div class="help-container top-left">
+        <h2>Guest Features</h2>
+        <p>Without logging in, you can:</p>
+        <ul>
+            <li>Upload images or use the webcam to detect traffic signs.</li>
+            <li>Get basic analysis of traffic signs.</li>
+        </ul>
+    </div>
+
+    <div class="help-container bottom-right">
+        <h2>Logged-in Features</h2>
+        <p>As a registered user, you can:</p>
+        <ul>
+            <li>View all traffic sign categories.</li>
+            <li>Report road issues.</li>
+            <li>Search for nearby traffic signs.</li>
+            <li>Receive notifications about reported traffic problems.</li>
+        </ul>
+    </div>
+
+    <div class="gradient-bar-horizontal"></div>
+    <div class="gradient-bar-vertical"></div>
+    <div class="gradient-bar-horizontal1"></div>
+    <div class="gradient-bar-vertical2"></div>
+</body>
+</html>
