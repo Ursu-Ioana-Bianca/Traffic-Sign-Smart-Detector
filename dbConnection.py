@@ -158,6 +158,10 @@ def register():
 
 
 
+
+
+
+
 @app.route('/login', methods=['POST'])
 def login():
     """
@@ -222,7 +226,6 @@ def login():
         return jsonify({'message': 'Invalid credentials'}), 401
 
 
-import re
 from rdflib import OWL, RDF, RDFS, Graph, Namespace
 
 categories = {}
@@ -342,9 +345,11 @@ def load_ontology():
                 categories[category_name].append(sign_data)  # Adăugăm semnul principal în listă
 
 
+
 load_ontology()
 configure_upload_routes(app, signs_name, signs_properties)
 configure_webcam_routes(app)
+
 
 @app.route('/get_signs', methods=['GET'])
 def get_signs():
@@ -822,4 +827,3 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
