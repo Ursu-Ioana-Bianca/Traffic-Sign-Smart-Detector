@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>View Media</title>
+</head>
+<body>
+    {% if input_type == 'image' %}
+        <h1>Displayed Image</h1>
+        <img src="{{ file_url }}" alt="Uploaded Image" style="max-width: 100%;">
+    {% elif input_type == 'video' %}
+        <h1>Displayed Video</h1>
+        <video width="640" height="480" controls>
+            <source src="{{ file_url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    {% else %}
+        <p>No media to display.</p>
+    {% endif %}
+
+    <ul>
+        {% for object_name in detected_objects %}
+            <li> {{ object_name }} </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Sign Details</h2>
+    <div>
+        {% for sign in signs_description %}
+            <div>
+                <h3>{{ sign.name }}</h3>
+                <img src="{{ sign.image }}" alt="{{ sign.name }}" style="width: 200px;">
+                <p>{{ sign.description }}</p>
+                <p>{{ sign.category }}</p>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,9 @@
+[
+{
+ "frame_id":1, 
+ "filename":"D:/Documents/Repositories/Traffic-Sign-Smart-Detector/uploads/traffic-sign-to-test.jpg", 
+ "objects": [ 
+  {"class_id":10, "name":"Yield", "relative_coordinates":{"center_x":0.626661, "center_y":0.170061, "width":0.236954, "height":0.273226}, "confidence":0.839138}
+ ] 
+}
+]

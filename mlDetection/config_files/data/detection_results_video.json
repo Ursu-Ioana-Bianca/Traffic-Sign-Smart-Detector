@@ -1,0 +1,349 @@
+[
+{
+ "frame_id":1, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":2, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":3, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":4, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":5, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":6, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":7, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":8, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":9, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":10, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":11, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":12, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":13, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":14, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":15, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":16, 
+ "objects": [ 
+  {"class_id":28, "name":"Roundabout mandatory", "relative_coordinates":{"center_x":0.859537, "center_y":0.865605, "width":0.267019, "height":0.248458}, "confidence":0.334705}
+ ] 
+}, 
+{
+ "frame_id":17, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":18, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":19, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":20, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":21, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":22, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":23, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":24, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":25, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":26, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":27, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":28, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":29, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":30, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":31, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.791924, "center_y":0.512553, "width":0.076558, "height":0.118013}, "confidence":0.265947}
+ ] 
+}, 
+{
+ "frame_id":32, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":33, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":34, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.799144, "center_y":0.516822, "width":0.075009, "height":0.127742}, "confidence":0.291019}
+ ] 
+}, 
+{
+ "frame_id":35, 
+ "objects": [ 
+
+ ] 
+}, 
+{
+ "frame_id":36, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.821327, "center_y":0.520088, "width":0.080521, "height":0.134033}, "confidence":0.267451}
+ ] 
+}, 
+{
+ "frame_id":37, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.824402, "center_y":0.520797, "width":0.076817, "height":0.126061}, "confidence":0.371884}
+ ] 
+}, 
+{
+ "frame_id":38, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.825524, "center_y":0.517781, "width":0.079948, "height":0.132244}, "confidence":0.632381}
+ ] 
+}, 
+{
+ "frame_id":39, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.826243, "center_y":0.517923, "width":0.078775, "height":0.131821}, "confidence":0.777199}, 
+  {"class_id":28, "name":"Roundabout mandatory", "relative_coordinates":{"center_x":0.863376, "center_y":0.871160, "width":0.255854, "height":0.235948}, "confidence":0.556643}
+ ] 
+}, 
+{
+ "frame_id":40, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.832914, "center_y":0.518065, "width":0.078516, "height":0.126499}, "confidence":0.553622}, 
+  {"class_id":28, "name":"Roundabout mandatory", "relative_coordinates":{"center_x":0.859823, "center_y":0.872044, "width":0.255379, "height":0.249455}, "confidence":0.589016}
+ ] 
+}, 
+{
+ "frame_id":41, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.835838, "center_y":0.517427, "width":0.080683, "height":0.127648}, "confidence":0.626314}, 
+  {"class_id":28, "name":"Roundabout mandatory", "relative_coordinates":{"center_x":0.861804, "center_y":0.870506, "width":0.254150, "height":0.244929}, "confidence":0.607560}
+ ] 
+}, 
+{
+ "frame_id":42, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.839154, "center_y":0.519990, "width":0.085628, "height":0.130471}, "confidence":0.874876}, 
+  {"class_id":28, "name":"Roundabout mandatory", "relative_coordinates":{"center_x":0.862837, "center_y":0.870764, "width":0.257236, "height":0.241722}, "confidence":0.651900}
+ ] 
+}, 
+{
+ "frame_id":43, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.860733, "center_y":0.518151, "width":0.089150, "height":0.130534}, "confidence":0.650162}
+ ] 
+}, 
+{
+ "frame_id":44, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.864748, "center_y":0.520776, "width":0.093153, "height":0.137605}, "confidence":0.928777}, 
+  {"class_id":28, "name":"Roundabout mandatory", "relative_coordinates":{"center_x":0.862088, "center_y":0.871564, "width":0.263644, "height":0.249333}, "confidence":0.361177}
+ ] 
+}, 
+{
+ "frame_id":45, 
+ "objects": [ 
+  {"class_id":4, "name":"Speed limit (80km/h)", "relative_coordinates":{"center_x":0.860573, "center_y":0.413753, "width":0.092358, "height":0.136749}, "confidence":0.258417}, 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.870795, "center_y":0.521481, "width":0.095005, "height":0.141273}, "confidence":0.877148}, 
+  {"class_id":18, "name":"Slippery road", "relative_coordinates":{"center_x":0.870795, "center_y":0.521481, "width":0.095005, "height":0.141273}, "confidence":0.681078}, 
+  {"class_id":28, "name":"Roundabout mandatory", "relative_coordinates":{"center_x":0.861464, "center_y":0.868297, "width":0.270981, "height":0.249878}, "confidence":0.356970}
+ ] 
+}, 
+{
+ "frame_id":46, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.875516, "center_y":0.518578, "width":0.090036, "height":0.135831}, "confidence":0.809291}, 
+  {"class_id":18, "name":"Slippery road", "relative_coordinates":{"center_x":0.875516, "center_y":0.518578, "width":0.090036, "height":0.135831}, "confidence":0.300591}, 
+  {"class_id":4, "name":"Speed limit (80km/h)", "relative_coordinates":{"center_x":0.866714, "center_y":0.411227, "width":0.090028, "height":0.147461}, "confidence":0.303127}
+ ] 
+}, 
+{
+ "frame_id":47, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.894729, "center_y":0.518715, "width":0.135526, "height":0.138529}, "confidence":0.944188}, 
+  {"class_id":4, "name":"Speed limit (80km/h)", "relative_coordinates":{"center_x":0.872322, "center_y":0.408376, "width":0.090127, "height":0.151056}, "confidence":0.576830}, 
+  {"class_id":6, "name":"Speed limit (100km/h)", "relative_coordinates":{"center_x":0.872322, "center_y":0.408376, "width":0.090127, "height":0.151056}, "confidence":0.296464}
+ ] 
+}, 
+{
+ "frame_id":48, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.894665, "center_y":0.519587, "width":0.129425, "height":0.139125}, "confidence":0.979360}, 
+  {"class_id":4, "name":"Speed limit (80km/h)", "relative_coordinates":{"center_x":0.877320, "center_y":0.409035, "width":0.095114, "height":0.147388}, "confidence":0.616069}, 
+  {"class_id":6, "name":"Speed limit (100km/h)", "relative_coordinates":{"center_x":0.877320, "center_y":0.409035, "width":0.095114, "height":0.147388}, "confidence":0.333955}
+ ] 
+}, 
+{
+ "frame_id":49, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.898783, "center_y":0.520124, "width":0.099338, "height":0.143969}, "confidence":0.964661}, 
+  {"class_id":4, "name":"Speed limit (80km/h)", "relative_coordinates":{"center_x":0.880092, "center_y":0.405764, "width":0.094549, "height":0.141016}, "confidence":0.359506}
+ ] 
+}, 
+{
+ "frame_id":50, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.906527, "center_y":0.524179, "width":0.095914, "height":0.149660}, "confidence":0.987599}, 
+  {"class_id":4, "name":"Speed limit (80km/h)", "relative_coordinates":{"center_x":0.894796, "center_y":0.407881, "width":0.096403, "height":0.137250}, "confidence":0.640083}
+ ] 
+}, 
+{
+ "frame_id":51, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.914127, "center_y":0.523739, "width":0.094245, "height":0.153013}, "confidence":0.972413}, 
+  {"class_id":2, "name":"Speed limit (60km/h)", "relative_coordinates":{"center_x":0.902489, "center_y":0.406382, "width":0.093382, "height":0.152177}, "confidence":0.321365}, 
+  {"class_id":4, "name":"Speed limit (80km/h)", "relative_coordinates":{"center_x":0.902489, "center_y":0.406382, "width":0.093382, "height":0.152177}, "confidence":0.518872}
+ ] 
+}, 
+{
+ "frame_id":52, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.917596, "center_y":0.525905, "width":0.096396, "height":0.154610}, "confidence":0.989011}, 
+  {"class_id":4, "name":"Speed limit (80km/h)", "relative_coordinates":{"center_x":0.910047, "center_y":0.401979, "width":0.093220, "height":0.150384}, "confidence":0.796590}
+ ] 
+}, 
+{
+ "frame_id":53, 
+ "objects": [ 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.926468, "center_y":0.523163, "width":0.093925, "height":0.140359}, "confidence":0.962771}, 
+  {"class_id":2, "name":"Speed limit (60km/h)", "relative_coordinates":{"center_x":0.915931, "center_y":0.402540, "width":0.091154, "height":0.147428}, "confidence":0.675205}, 
+  {"class_id":4, "name":"Speed limit (80km/h)", "relative_coordinates":{"center_x":0.915931, "center_y":0.402540, "width":0.091154, "height":0.147428}, "confidence":0.654784}
+ ] 
+}, 
+{
+ "frame_id":54, 
+ "objects": [ 
+  {"class_id":2, "name":"Speed limit (60km/h)", "relative_coordinates":{"center_x":0.928970, "center_y":0.401204, "width":0.086999, "height":0.136251}, "confidence":0.330028}, 
+  {"class_id":4, "name":"Speed limit (80km/h)", "relative_coordinates":{"center_x":0.928970, "center_y":0.401204, "width":0.086999, "height":0.136251}, "confidence":0.619741}, 
+  {"class_id":7, "name":"No passing", "relative_coordinates":{"center_x":0.932050, "center_y":0.524933, "width":0.089243, "height":0.161739}, "confidence":0.969173}
+ ] 
+}
+]

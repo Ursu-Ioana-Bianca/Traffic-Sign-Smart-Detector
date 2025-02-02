@@ -1,0 +1,5 @@
+classes = 4
+train = D:/Documents/MASTER/Web/ts/train.txt
+valid = D:/Documents/MASTER/Web/ts/test.txt
+names = D:/Documents/MASTER/Web/ts/classes.names
+backup = backup

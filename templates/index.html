@@ -346,6 +346,7 @@ body::before {
     }
 }
     </style>
+    <script src="../static/index.js"></script>
 </head>
 <body>
     <div class="header">
@@ -407,12 +408,21 @@ body::before {
 
         <div class="hidden-buttons">
             <div class="button-container">
-                <div class="button-text">Upload</div>
-                <button class="upload-button">U</button>
+                <form method="post" enctype="multipart/form-data">
+                    <input type="file" id="file-input" name="file" hidden/>
+                    <button type="button" class="upload-button">U</button>
+                    <div class="button-text">Upload</div>
+                    <input type="submit" id="submit-button" hidden/>
+                </form>
             </div>
             <div class="button-container">
-                <div class="button-text">Webcam</div>
                 <button class="webcam-button">W</button>
+                <video id="video" width="640" height="480" autoplay hidden></video>
+                <div class="button-text">Webcam</div>
+            </div>
+            <div class="button-container">
+                <button id="stop-cam-button">S</button>
+                <div class="button-text">Stop webcam</div>
             </div>
         </div>
     </div>
@@ -476,7 +486,6 @@ body::before {
             }
         }
     </script>
-    <script src="index.js"></script>
 </body>
 
 </html>
