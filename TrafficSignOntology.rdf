@@ -2351,7 +2351,7 @@
         <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#NoPrioritySign"/>
         <signs:description>It is placed on a non-priority public road at its intersection with a priority public road. When encountering this sign, the driver is required to slow down and ensure that no vehicles are approaching on the priority road before entering the intersection. If vehicles are present on the priority road, the driver must stop to give them the right of way.</signs:description>
         <signs:signImageURL>https://www.codrutier.ro/storage/images/936dec6f64f1bbbf575c8c1c81a61626.png</signs:signImageURL>
-        <signs:signName>Give Way</signs:signName>
+        <signs:signName>Yield</signs:signName>
         <rdfs:label xml:lang="en">GiveWaySign</rdfs:label>
     </owl:NamedIndividual>
     

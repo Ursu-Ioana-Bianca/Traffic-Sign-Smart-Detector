@@ -5,6 +5,7 @@ from flasgger import Swagger
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS  # ✅ Importă CORS
 from werkzeug.security import check_password_hash, generate_password_hash
+from upload_module import configure_upload_routes, configure_webcam_routes
 
 app = Flask(__name__)
 CORS(app, supports_credentials=True)  # Permite cookie-urile de sesiune
@@ -14,11 +15,10 @@ app.secret_key = os.urandom(24)
 swagger = Swagger(app)
 
 
-
 def create_db():
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
-    
+
     # Creare tabel utilizatori
     cursor.execute('''CREATE TABLE IF NOT EXISTS users (
                       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,6 +53,7 @@ def create_db():
 
     conn.commit()
     conn.close()
+
 
 create_db()
 
@@ -125,6 +126,7 @@ def register():
 
         cursor.execute("INSERT INTO users (username, email, password, country, county) VALUES (?, ?, ?, ?, ?)",
                        (username, email, hashed_password, country, county))
+
         conn.commit()
 
         # Verifică existența rapoartelor
@@ -137,7 +139,9 @@ def register():
             for report in reports:
                 report_description, report_datetime, report_street = report
                 cursor.execute("INSERT INTO notifications (user_email, message, street, datetime) VALUES (?, ?, ?, ?)",
-                               (email, f"New issue: {report_description}<br>Reported in your area: {report_street}<br>Reported at: {report_datetime}", report_street, report_datetime))
+                               (email,
+                                f"New issue: {report_description}<br>Reported in your area: {report_street}<br>Reported at: {report_datetime}",
+                                report_street, report_datetime))
 
         conn.commit()
         conn.close()
@@ -148,7 +152,7 @@ def register():
         return jsonify({'message': 'Username or email already exists'}), 400
     except Exception as e:
         return jsonify({'message': f"Unexpected error: {e}"}), 500
-    
+
 
 
 
@@ -218,16 +222,13 @@ def login():
         return jsonify({'message': 'Invalid credentials'}), 401
 
 
-
-
-
 import re
-
 from rdflib import OWL, RDF, RDFS, Graph, Namespace
 
 categories = {}
 signs_name = []
 signs_properties = {}
+
 
 def load_ontology():
     global categories, signs_name, signs_properties  # Asigură-te că folosești variabilele globale
@@ -240,7 +241,7 @@ def load_ontology():
     
     g = Graph()
     g.parse("TrafficSignOntology.rdf", format="xml")  # Poate fi "turtle", "n3", "nt" în funcție de format
-        # Execută interogarea pentru a obține toate categoriile
+    # Execută interogarea pentru a obține toate categoriile
     category_query = """
     PREFIX signs: <http://www.semanticweb.org/bianca/ontologies/2025/0/signs#>
             PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
@@ -256,8 +257,6 @@ def load_ontology():
 """
     category_results = g.query(category_query)
 
-    
-    
     for category_row in category_results:
         category_name = str(category_row.signCategoryName)
         categories[category_name] = []
@@ -296,20 +295,18 @@ def load_ontology():
         }}
         ORDER BY ?signName
         """
-        
+
         sign_results = g.query(sign_query)
-        
+
         for sign_row in sign_results:
             signs_name.append(str(sign_row.signName))
 
-           
             signs_properties[str(sign_row.signName)] = []
             signs_properties[str(sign_row.signName)].append({
                 "image": str(sign_row.signImageURL),
                 "description": str(sign_row.signDescription),
                 "category": category_name,                  
                 })
-
 
             # Verificăm dacă semnul există deja în listă
             existing_sign = next((s for s in categories[category_name] if s["name"] == str(sign_row.signName)), None)
@@ -319,7 +316,8 @@ def load_ontology():
                 if sign_row.associatedSignName is not None:
                     existing_sign["associatedSigns"].append({
                         "name": str(sign_row.associatedSignName),
-                        "image": str(sign_row.associatedSignImageUrl) if sign_row.associatedSignImageUrl is not None else None
+                        "image": str(
+                            sign_row.associatedSignImageUrl) if sign_row.associatedSignImageUrl is not None else None
                     })
             else:
                 # Dacă semnul NU există, îl creăm și îl adăugăm în listă
@@ -337,14 +335,16 @@ def load_ontology():
                 if sign_row.associatedSignName is not None:
                     sign_data["associatedSigns"].append({
                         "name": str(sign_row.associatedSignName),
-                        "image": str(sign_row.associatedSignImageUrl) if sign_row.associatedSignImageUrl is not None else None
+                        "image": str(
+                            sign_row.associatedSignImageUrl) if sign_row.associatedSignImageUrl is not None else None
                     })
 
                 categories[category_name].append(sign_data)  # Adăugăm semnul principal în listă
 
 
-
-
+load_ontology()
+configure_upload_routes(app, signs_name, signs_properties)
+configure_webcam_routes(app)
 
 @app.route('/get_signs', methods=['GET'])
 def get_signs():
@@ -382,8 +382,6 @@ def get_signs():
     return jsonify(categories)
 
 
-
-
 import math
 
 import requests
@@ -395,9 +393,11 @@ def haversine(lat1, lon1, lat2, lon2):
     R = 6371  # Raza Pământului în km
     dlat = math.radians(lat2 - lat1)
     dlon = math.radians(lon2 - lon1)
-    a = math.sin(dlat/2) * math.sin(dlat/2) + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon/2) * math.sin(dlon/2)
-    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+    a = math.sin(dlat / 2) * math.sin(dlat / 2) + math.cos(math.radians(lat1)) * math.cos(
+        math.radians(lat2)) * math.sin(dlon / 2) * math.sin(dlon / 2)
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     return R * c  # Distanța în km
+
 
 @app.route('/get_nearby_signs', methods=['GET'])
 def get_nearby_signs():
@@ -431,10 +431,9 @@ def get_nearby_signs():
     );
     out body;
     """
-    
+
     response = requests.get(overpass_url, params={'data': overpass_query})
     data = response.json()
-
 
     nearby_signs = []
     for element in data.get("elements", []):
@@ -450,11 +449,11 @@ def get_nearby_signs():
             if best_match:
                 sign_name = best_match[0]
                 print(signs_properties[sign_name][0].get('image')
- )
+                      )
                 sign_image = signs_properties[sign_name][0].get('image')
                 sign_description = signs_properties[sign_name][0].get('description')
                 sign_category = signs_properties[sign_name][0].get('category')
- 
+
             nearby_signs.append({
                 "name": sign_name,
                 "latitude": sign_lat,
@@ -465,12 +464,7 @@ def get_nearby_signs():
                 "category": f"Category: {sign_category}"
             })
 
-
     return jsonify(nearby_signs)
-
-
-
-
 
 
 from datetime import datetime
@@ -546,12 +540,15 @@ def report_issue():
 
         # Găsim utilizatorii afectați
         cursor.execute("SELECT email FROM users WHERE country = ? AND county = ? AND email != ?", (country, county, user_email))
+
         users = cursor.fetchall()
- 
+
         # Adăugăm notificări pentru fiecare utilizator
         for user in users:
-                cursor.execute("INSERT INTO notifications (user_email, message, street, datetime) VALUES (?, ?, ?, ?)",
-                            (user[0], f"New issue: {issue_description}<br>Reported in your area: {street}<br>Raported at: {datetime_obj} ", street, datetime_obj))
+            cursor.execute("INSERT INTO notifications (user_email, message, street, datetime) VALUES (?, ?, ?, ?)",
+                           (user[0],
+                            f"New issue: {issue_description}<br>Reported in your area: {street}<br>Raported at: {datetime_obj} ",
+                            street, datetime_obj))
         print(users[0])
         conn.commit()
         conn.close()
@@ -560,7 +557,7 @@ def report_issue():
 
     except Exception as e:
         return jsonify({'message': f'Error: {str(e)}'}), 500
-    
+
 
 @app.route('/notifications', methods=['GET'])
 def get_notifications():
@@ -600,7 +597,6 @@ def get_notifications():
     """
     user_email = request.args.get('email')
 
-
     if not user_email:
         return jsonify({'message': 'Email is required'}), 400
 
@@ -619,7 +615,6 @@ def get_notifications():
 
     except Exception as e:
         return jsonify({'message': f'Error: {str(e)}'}), 500
-
 
 
 @app.route('/get_user_info', methods=['GET'])
@@ -666,10 +661,10 @@ def get_user_info():
     try:
         conn = sqlite3.connect('users.db')
         cursor = conn.cursor()
-        
+
         cursor.execute("SELECT username, email, country, county FROM users WHERE email = ?", (email,))
         user = cursor.fetchone()
-        
+
         conn.close()
 
         if not user:
@@ -685,10 +680,8 @@ def get_user_info():
 
     except Exception as e:
         return jsonify({'message': f'Error: {str(e)}'}), 500
-    
 
 
-    
 @app.route('/delete_notification/<int:notification_id>', methods=['DELETE'])
 def delete_notification(notification_id):
     """
@@ -748,12 +741,12 @@ def delete_notification(notification_id):
         return jsonify({'message': f'Error: {str(e)}'}), 500
 
 
-
 UPLOAD_FOLDER = "static/uploads"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
+
 
 @app.route('/upload_profile_image', methods=['POST'])
 def upload_profile_image():
@@ -806,9 +799,6 @@ def upload_profile_image():
     return jsonify({'message': 'Profile image updated successfully!', 'image_url': image_url}), 200
 
 
-
-    
-    
 @app.route('/logout', methods=['POST'])
 def logout():
     """
@@ -827,9 +817,9 @@ def logout():
         else:
             return jsonify({'message': 'Logged out failed.'}), 400
     except Exception as e:
-        return jsonify({'message': f'Error: {str(e)}'}), 500  
-    
+        return jsonify({'message': f'Error: {str(e)}'}), 500
 
 
 if __name__ == '__main__':
     app.run(debug=True)
+

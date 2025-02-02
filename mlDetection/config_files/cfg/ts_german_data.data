@@ -1,0 +1,5 @@
+classes = 30
+train = D:\Documents\Repositories\Traffic-Sign-Smart-Detector\mlDetection\config_files\classes\30\train.txt
+valid = D:\Documents\Repositories\Traffic-Sign-Smart-Detector\mlDetection\config_files\classes\30\test.txt
+names = D:\Documents\Repositories\Traffic-Sign-Smart-Detector\mlDetection\config_files\classes\30\classes.names
+backup = backup

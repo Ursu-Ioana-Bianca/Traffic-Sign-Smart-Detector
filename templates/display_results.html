@@ -17,10 +17,22 @@
         <p>No media to display.</p>
     {% endif %}
 
-        <ul>
-            {% for object_name in detected_objects %}
-                <li> {{ object_name }} </li>
-            {% endfor %}
-        </ul>
+    <ul>
+        {% for object_name in detected_objects %}
+            <li> {{ object_name }} </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Sign Details</h2>
+    <div>
+        {% for sign in signs_description %}
+            <div>
+                <h3>{{ sign.name }}</h3>
+                <img src="{{ sign.image }}" alt="{{ sign.name }}" style="width: 200px;">
+                <p>{{ sign.description }}</p>
+                <p>{{ sign.category }}</p>
+            </div>
+        {% endfor %}
+    </div>
 </body>
 </html>
