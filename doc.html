@@ -1,0 +1,67 @@
+<section>
+    <h2>1. Internal Data Structures and Models</h2>
+    <p>The web application maintains structured data for various entities such as users, traffic signs, reports, and notifications. The main data structures are as follows:</p>
+    <ul>
+        <li><strong>User Data Model:</strong> Consists of user profiles containing email, profile picture, preferences, and location history.</li>
+        <li><strong>Traffic Sign Model:</strong> Stores sign identifiers, category, description, image, and geolocation (latitude and longitude).</li>
+        <li><strong>Report Model:</strong> Includes reports submitted by users about traffic signs, their status, and associated timestamps.</li>
+        <li><strong>Notification Model:</strong> Handles system-generated alerts and reminders for users.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>2. API Implementation</h2>
+    <p>The system employs a RESTful API for handling client-server interactions. Key API endpoints include:</p>
+    <ul>
+        <li><code>GET /api/users/{email}</code> - Retrieves user profile information.</li>
+        <li><code>POST /api/users/upload-profile</code> - Updates user profile picture.</li>
+        <li><code>GET /api/traffic-signs/nearby</code> - Fetches traffic signs based on user geolocation.</li>
+        <li><code>POST /api/reports</code> - Allows users to report traffic sign issues.</li>
+        <li><code>GET /api/notifications</code> - Retrieves notifications relevant to the user.</li>
+    </ul>
+    <p>All requests are processed with appropriate authentication and error handling mechanisms to ensure secure data access.</p>
+</section>
+
+<section>
+    <h2>3. RDF-Based Knowledge Models</h2>
+    <p>The system leverages RDF-based knowledge representation to enhance the semantic interoperability of traffic sign data. The adopted ontology integrates:</p>
+    <ul>
+        <li><strong>Schema.org</strong> for representing structured metadata of traffic signs.</li>
+        <li><strong>Wikidata properties</strong> to enrich traffic sign descriptions with globally recognized identifiers.</li>
+        <li><strong>GeoSPARQL</strong> for handling spatial relationships of traffic signs.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>4. External Knowledge Sources and SPARQL Queries</h2>
+    <p>The application enriches its data by querying external knowledge bases. Key integrations include:</p>
+    <ul>
+        <li><strong>Wikidata Queries:</strong> Fetching additional metadata about traffic signs using SPARQL.</li>
+        <li><strong>DBpedia:</strong> Linking relevant traffic regulations and concepts.</li>
+        <li><strong>Linked Open Data:</strong> Ensuring interoperability with global traffic databases.</li>
+    </ul>
+    <p>Example SPARQL query to retrieve traffic sign information:</p>
+    <pre><code>
+        SELECT ?sign ?label WHERE {
+            ?sign wdt:P31 wd:Q186103 .  # Traffic signs category
+            ?sign rdfs:label ?label .
+            FILTER (LANG(?label) = "en")
+        }
+        LIMIT 10
+    </code></pre>
+</section>
+
+<section>
+    <h2>5. Linked Data Principles</h2>
+    <p>The system adheres to linked data principles by:</p>
+    <ul>
+        <li>Using dereferenceable URIs for traffic signs.</li>
+        <li>Integrating data from multiple RDF-based sources.</li>
+        <li>Enabling SPARQL endpoints for querying enriched traffic data.</li>
+    </ul>
+</section>
+
+<section>
+    <h2>Conclusion</h2>
+    <p>The web application effectively manages traffic sign data while incorporating RESTful APIs and linked data principles. Future improvements include enhancing RDF schema expressiveness and optimizing API performance.</p>
+</section>

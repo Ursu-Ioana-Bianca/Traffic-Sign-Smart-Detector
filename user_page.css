@@ -16,7 +16,7 @@ h1 {
 .side-menu {
     position: fixed;
     top: 0;
-    left: -250px;
+    left: -240px;
     width: 250px;
     height: 100%;
     background-color: #333;
@@ -74,6 +74,18 @@ button:hover {
     background-color: #728b03;
 }
 
+.side-menu.open ~ .content {
+    margin-left: 170px; /* Mută conținutul în dreapta cu lățimea meniului */
+}
+
+.side-menu.open ~ .profile-button {
+    width: 130px;
+    height: 125px;
+    right: 0px;
+}
+
+
+
 /* Container categorii și semne */
 #categoriesContainer, #signsContainer, #nearbySignsContainer {
     margin-top: 20px;
@@ -81,6 +93,7 @@ button:hover {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    
 
 }
 
@@ -405,17 +418,104 @@ button:hover {
     z-index: -100;
 }
 
+.sign {
+    position: relative; /* Plasează butoanele relative la semnul respectiv */
+    padding-bottom: 60px; /* Adaugă suficient spațiu în partea de jos pentru a evita suprapunerea cu butoanele */
+}
+
+.speak-btn {
+    position: absolute;
+    bottom: 0px;
+    width: 60px;
+    height: 60px;
+    border: none;
+    background: #007bff0a;
+    color: white;
+    font-size: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+/* Stânga jos */
+.left-btn {
+    left: 10px;
+    
+}
+
+/* Dreapta jos */
+.right-btn {
+    right: 10px;
+}
+
+
+ /* Stil pentru containerul ce conține titlul și butonul */
+        .header-container {
+            display: flex; /* Folosește flexbox pentru a alinia elementele pe aceeași linie */
+            justify-content: center; /* Centrează pe orizontală */
+            align-items: center; /* Centrează pe verticală */
+            gap: 10px; /* Adaugă un spațiu între elemente (opțional) */
+        }
+.speak-btn:hover {
+    background-color: #8b8b8b;
+}
+
+#changeImageButton {
+    position: relative;
+    border-radius: 50%;
+    left: 20px;
+    width:60px;
+    height:60px;
+    bottom: -10px;
+    background-image: url('/images/change.png');  /* Calea către imaginea ta */
+    background-size: cover;  /* Ajustează dimensiunea imaginii pentru a acoperi întregul fundal */
+    background-position: center;  /* Centrează imaginea pe ecran */
+    background-repeat: no-repeat;  /* Previi repetarea imaginii */
+   
+}
+
+
+
+
+
 
 /* Responsivitate */
-@media (max-width: 768px) {
-    .row {
-        flex-direction: column;
-        align-items: center;
+.row {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Semnele ocupă lățime dinamică pe ecrane mari */
+.sign {
+    flex: 1 1 calc(33.33% - 40px); /* 3 semne pe linie, cu un mic spațiu între ele */
+    max-width: 320px;
+
+}
+
+/* Tablete - 2 semne pe linie */
+@media (max-width: 1024px) {
+    .sign {
+        flex: 1 1 calc(50% - 40px); /* 2 semne pe linie */
+    }
+    .side-menu {
+        width: 155px; /* Reducem  lățimea meniului lateral */
+    }
+}
+
+
+/* Telefoane - 1 semn pe linie */
+@media (max-width: 600px) {
+    .sign {
+        flex: 1 1 calc(100% - 40px); /* 1 semn pe linie */
     }
 
-    .sign {
-        max-width: 90%;
+        /* Meniul lateral */
+    .side-menu {
+        width: 145px; /* Reducem și mai mult lățimea meniului lateral */
     }
+    
 }
 
 
@@ -425,10 +525,9 @@ button:hover {
         width: 120px;  /* Mărire sau micșorare în funcție de dimensiunea ecranului */
         height: 120px;
         font-size: 24px;
+        right:0px;
     }
 }
-
-
 
 
 
@@ -448,19 +547,11 @@ button:hover {
 
 /* Responsivitate pentru Side Menu și Semne */
 @media (max-width: 768px) {
-    /* Meniul lateral */
-    .side-menu {
-        width: 180px; /* Reducem și mai mult lățimea meniului lateral */
-    }
-
-    /* Semnele: adăugăm un margin-top pentru a le deplasa mai jos */
-
 
     @media (max-width: 768px) {
         #category-header {
             margin-top: 80px; /* Coboară titlul atunci când fereastra este mică */
         }
     }
-
 
 }
