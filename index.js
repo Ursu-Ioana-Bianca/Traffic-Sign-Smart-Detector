@@ -116,4 +116,45 @@ document.addEventListener("DOMContentLoaded", function () {
             alert(error.message);
         }
     });
+
+
+
+    function adjustDescriptionPosition() {
+        const description = document.getElementById("description-box");
+        const loginForm = document.getElementById("login-form");
+        const registerForm = document.getElementById("register-form");
+    
+        if (window.innerWidth < 1350 && (loginForm.classList.contains("show") || registerForm.classList.contains("show"))) {
+            // Mută description box mai jos și îi reduce lățimea
+            description.style.top = "auto"; 
+            description.style.bottom = "20px"; 
+            description.style.left = "40%";
+            description.style.transform = "translateX(-50%)";
+            description.style.width = "60%";  // Reduce lățimea la 60%
+    
+            // Mută formularul mai sus
+            loginForm.style.top = "35%";
+            registerForm.style.top = "35%";
+            registerForm.style.maxHeight = "300px"; // Limitează înălțimea
+            registerForm.style.overflowY = "auto";  // Activează scrollbar-ul vertical
+
+        } else {
+            // Revine la poziția originală când ecranul este mare sau formularul nu e deschis
+            description.style.top = "200px"; 
+            description.style.left = "20px"; 
+            description.style.bottom = "auto"; 
+            description.style.transform = "none";
+            description.style.width = "400px";  // Lățime mai mică decât înainte
+    
+            // Revine la poziția inițială a formularului
+            loginForm.style.top = "50%";
+            registerForm.style.top = "50%";
+        }
+    }
+    
+    // Evenimente care declanșează ajustarea poziției
+    window.addEventListener("resize", adjustDescriptionPosition);
+    document.getElementById("login-button").addEventListener("click", adjustDescriptionPosition);
+    document.getElementById("register-button").addEventListener("click", adjustDescriptionPosition);
+    
 });

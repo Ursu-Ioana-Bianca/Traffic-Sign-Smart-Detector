@@ -12,6 +12,7 @@ CORS(app, supports_credentials=True)  # Permite cookie-urile de sesiune
 app.secret_key = os.urandom(24)
 
 
+
 def create_db():
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
@@ -477,8 +478,9 @@ def upload_profile_image():
     conn.commit()
     conn.close()
 
-    image_url = f"/static/uploads/{file.filename}"  # Asigură că URL-ul e accesibil public
+    image_url = f"http://127.0.0.1:5000/static/uploads/{file.filename}"
     return jsonify({'message': 'Profile image updated successfully!', 'image_url': image_url}), 200
+
 
 
     

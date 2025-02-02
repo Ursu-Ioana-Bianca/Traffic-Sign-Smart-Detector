@@ -62,7 +62,8 @@ function fetchSigns(categoriesData, category) {
     nearbySignsContainer.innerHTML = "";  // Curățăm semnele din apropiere înainte de a adăuga semnele pe categorii
 
     const container = document.getElementById("signsContainer");
-    container.innerHTML = `<h1>${category}</h1>`;
+    container.innerHTML = `<h1 id="category-header" style="color:rgb(0, 0, 0);">${category}</h1>`;
+
 
     let rowDiv = document.createElement("div");
     rowDiv.classList.add("row");
@@ -118,6 +119,7 @@ document.getElementById("findSigns").addEventListener("click", function () {
         displayFindMethods();
         findMethodContainer.style.display = "block";
     } else {
+        nearbySignsContainer.innerHTML = "";
         findMethodContainer.style.display = "none";
     }
 
@@ -127,6 +129,7 @@ document.getElementById("findSigns").addEventListener("click", function () {
 
 // Funcție pentru a crea și afișa butoanele de alegere a metodei de locație
 function displayFindMethods() {
+    
     const userEmail = sessionStorage.getItem("userEmail");
 
     if (!userEmail) {
@@ -207,7 +210,7 @@ function fetchNearbySigns(latitude, longitude) {
 // 📌 Funcție pentru afișarea semnelor din apropiere
 function displayNearbySigns(signsData) {
     const container = document.getElementById("nearbySignsContainer");
-    container.innerHTML = "<h2>Nearby Traffic Signs</h2>";
+    container.innerHTML = `<h1 id="category-header" style="color:rgb(0, 0, 0);">Nearby Traffic Signs</h1>`;;
 
     if (signsData.length === 0) {
         container.innerHTML += "<h1>No signs found nearby.</h1>";
@@ -410,7 +413,7 @@ document.getElementById("profileButton").addEventListener("click", function () {
     }
 });
 
-function fetchUserInfo() {
+async function fetchUserInfo() {
     let userEmail = sessionStorage.getItem("userEmail");
 
     if (!userEmail) {
@@ -418,12 +421,19 @@ function fetchUserInfo() {
         return;
     }
 
-    fetch(`http://127.0.0.1:5000/get_user_info?email=${userEmail}`)
-        .then(response => response.json())
-        .then(data => {
-            displayUserInfo(data);
-        })
-        .catch(error => console.error('❌ Error fetching user information:', error));
+    try {
+        let response = await fetch(`http://127.0.0.1:5000/get_user_info?email=${userEmail}`);
+        
+        if (!response.ok) {
+            throw new Error(`❌ HTTP Error: ${response.status}`);
+        }
+
+        let data = await response.json();
+        console.log("✅ Response:", data);
+        displayUserInfo(data);
+    } catch (error) {
+        console.error("❌ Fetch Error:", error);
+    }
 }
 
 function displayUserInfo(user) {
@@ -445,9 +455,9 @@ function displayUserInfo(user) {
         
         if (user.profile_image) {
             sessionStorage.setItem("profileImage", user.profile_image);
-            setTimeout(() => {
-                document.getElementById("profileImage").src = result.body.image_url + "?t=" + new Date().getTime();
-            }, 500);
+            localStorage.setItem("profileImage", user.profile_image);
+            document.getElementById("profileImage").src = user.profile_image + "?t=" + new Date().getTime();
+            
         }
     }
 
@@ -455,9 +465,9 @@ function displayUserInfo(user) {
 
     let changeImageButton = document.getElementById("changeImageButton");
     if (changeImageButton) {
-        changeImageButton.addEventListener("click", function () {
+        changeImageButton.onclick = function () {
             document.getElementById("imageUpload").click();
-        });
+        };
     }
 }
 
@@ -480,6 +490,7 @@ document.getElementById("imageUpload").addEventListener("change", function (even
         console.log("✅ Server response:", data);  // Vezi răspunsul complet în consolă
         if (data.image_url) {
             sessionStorage.setItem("profileImage", data.image_url);
+            localStorage.setItem("profileImage", data.image_url);
             document.getElementById("profileImage").src = data.image_url + "?t=" + new Date().getTime();
             alert("✅ Profile image updated successfully!");
         } else {
@@ -491,11 +502,50 @@ document.getElementById("imageUpload").addEventListener("change", function (even
 
 // La încărcarea paginii, setează imaginea din sessionStorage
 window.onload = function () {
-    let savedProfileImage = sessionStorage.getItem("profileImage");
-    if (savedProfileImage) {
-        document.getElementById("profileImage").src = savedProfileImage + "?t=" + new Date().getTime();
-    }
+    setTimeout(() => {
+        let savedProfileImage = sessionStorage.getItem("profileImage");
+        console.log("✅ Stored image in session:", savedProfileImage);
+        
+        if (savedProfileImage) {
+            let profileImageElement = document.getElementById("profileImage");
+            
+
+            if (profileImageElement ||  localStorage.getItem("profileImage")) {
+                profileImageElement.src = savedProfileImage + "?t=" + new Date().getTime();
+            } else {
+                console.error("❌ Elementul #profileImage nu a fost găsit!");
+            }
+        }
+    }, 1000); // Așteaptă 1 secundă înainte de a seta imaginea
 };
+
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    let savedProfileImage = sessionStorage.getItem("profileImage");
+
+    if (savedProfileImage) {
+        let profileImageElement = document.getElementById("profileImage");
+
+        if (profileImageElement) {
+            profileImageElement.src = savedProfileImage + "?t=" + new Date().getTime();
+        } else {
+            console.warn("⚠️ Elementul #profileImage nu a fost găsit. Se mai încearcă...");
+            
+            // Verifică din nou la fiecare 500ms până când găsește elementul (max 5 secunde)
+            let checkExist = setInterval(() => {
+                profileImageElement = document.getElementById("profileImage");
+                if (profileImageElement) {
+                    profileImageElement.src = savedProfileImage + "?t=" + new Date().getTime();
+                    clearInterval(checkExist);
+                }
+            }, 500);
+
+            // Oprește căutarea după 5 secunde
+            setTimeout(() => clearInterval(checkExist), 5000);
+        }
+    }
+});
 
 
 

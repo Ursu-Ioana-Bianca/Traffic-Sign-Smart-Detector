@@ -94,7 +94,7 @@ body::before {
         0 4px 6px rgba(0, 0, 0, 0.1);
     border: 2px solid rgba(255, 255, 255, 0.6);
     opacity: 0;
-    z-index: 3;
+    z-index: 10;
     overflow: hidden;
     transition: transform 0.5s ease, opacity 0.5s ease;
     width: 400px;
@@ -219,6 +219,14 @@ body::before {
     z-index: 2;
 }
 
+@media (max-width: 800px) {
+    .main-button {
+        width: 130px;
+        height: 130px;
+        font-size: 22px;
+    }
+}
+
 .main-button:hover {
     transform: scale(1.1);
 }
@@ -297,20 +305,28 @@ body::before {
 }
 
 .description-box {
-    position: absolute;
-    right: 300px;
-    bottom: 100%;
-    transform: translateY(30%);
+    position: fixed;
+    left: 20px; /* Mutat spre stânga */
+    top: 200px; /* Mutat mai sus */
     width: 400px;
+    height: auto;
     padding: 20px;
-    background: orange; /* Mai transparent pentru un efect de sticlă */
-    border: 1px solid rgba(255, 255, 255, 0.4); /* Contur subtil */
+    background: orange;
+    border: 1px solid rgba(255, 255, 255, 0.4);
     border-radius: 10px;
-    color: rgb(0, 0, 0);
+    color: black;
     z-index: 1;
-    backdrop-filter: blur(10px) saturate(150%); /* Blur combinat cu saturație */
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Adăugare de umbră pentru profunzime */
+    backdrop-filter: blur(10px) saturate(150%);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
     transition: opacity 0.5s ease, transform 0.3s ease;
+}
+
+
+@media (max-width: 700px) {
+    .description-box {
+        transform: scale(0.9); /* Micșorează și mai mult */
+        right: 50px;
+    }
 }
 
 
@@ -335,8 +351,8 @@ body::before {
     <div class="header">
         <button id="login-button" onclick="toggleForm('login')">Login</button>
         <button id="register-button" onclick="toggleForm('register')">Register</button>
-        <button onclick="window.location.href='/about'">About Us</button>
-        <button onclick="window.location.href='/help'">Help</button>
+        <button onclick="window.location.href='about.html'">About Us</button>
+        <button onclick="window.location.href='help.html'">Help</button>
     </div>
 
     <div class="center">
