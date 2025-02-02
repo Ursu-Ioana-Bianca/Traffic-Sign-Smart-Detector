@@ -1,6 +1,7 @@
 import os
 import sqlite3
 
+from flasgger import Swagger
 from flask import Flask, jsonify, request, session
 from flask_cors import CORS  # ✅ Importă CORS
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -10,6 +11,7 @@ CORS(app, supports_credentials=True)  # Permite cookie-urile de sesiune
 # CORS(app, resources={r"/*": {"origins": "*"}})
 # CORS(app, resources={r"/*": {"origins": "*"}})
 app.secret_key = os.urandom(24)
+swagger = Swagger(app)
 
 
 
@@ -59,19 +61,61 @@ from datetime import datetime
 
 @app.route('/register', methods=['POST'])
 def register():
+    """
+    User Registration
+    ---
+    tags:
+      - Authentication
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          id: Register
+          required:
+            - username
+            - email
+            - password
+            - country
+            - county
+          properties:
+            username:
+              type: string
+              description: Username-ul utilizatorului
+            email:
+              type: string
+              description: Email-ul utilizatorului
+            password:
+              type: string
+              description: Parola utilizatorului
+            country:
+              type: string
+              description: Țara utilizatorului
+            county:
+              type: string
+              description: Județul utilizatorului
+    responses:
+      201:
+        description: User registered successfully
+        schema:
+          properties:
+            message:
+              type: string
+              example: "User registered successfully"
+      400:
+        description: Missing data or duplicate entry
+      500:
+        description: Unexpected server error
+    """
     try:
-        print("Request received at /register")  # 📌 Debugging
         data = request.json
-        print("Received data:", data)  # 📌 Verificăm ce primim de la frontend
-
         username = data.get('username')
         email = data.get('email')
         password = data.get('password')
         country = data.get('country')
         county = data.get('county')
-        
 
-        if not username or not email or not password:
+        if not username or not email or not password or not country or not county:
             return jsonify({'message': 'All fields are required'}), 400
 
         hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
@@ -79,47 +123,86 @@ def register():
         conn = sqlite3.connect('users.db')
         cursor = conn.cursor()
 
-        # ✅ Inserăm utilizatorul în baza de date (acum și cu strada)
         cursor.execute("INSERT INTO users (username, email, password, country, county) VALUES (?, ?, ?, ?, ?)",
-                       (username, email, hashed_password, country.lower(), county))
-        
+                       (username, email, hashed_password, country, county))
         conn.commit()
 
-        print(country.capitalize())
-        print(county)
-        # ✅ Verificăm dacă există rapoarte pentru țara, județul și strada utilizatorului
+        # Verifică existența rapoartelor
         cursor.execute("SELECT description, datetime, street FROM reports WHERE country = ? AND county = ?",
                        (country.capitalize(), county))
         reports = cursor.fetchall()
-        print(reports)
-        # ✅ Dacă există rapoarte, adăugăm notificări pentru utilizator
+
+        # Dacă există rapoarte, adaugă notificări pentru utilizator
         if reports:
             for report in reports:
-                report_description = report[0]
-                report_datetime = report[1]  # Data raportului existent
-                report_street = report[2]  # Strada raportului
+                report_description, report_datetime, report_street = report
                 cursor.execute("INSERT INTO notifications (user_email, message, street, datetime) VALUES (?, ?, ?, ?)",
                                (email, f"New issue: {report_description}<br>Reported in your area: {report_street}<br>Reported at: {report_datetime}", report_street, report_datetime))
 
         conn.commit()
         conn.close()
 
-        print("User registered successfully!")  # 📌 Verificăm dacă ajunge aici
         return jsonify({'message': 'User registered successfully'}), 201
 
     except sqlite3.IntegrityError:
         return jsonify({'message': 'Username or email already exists'}), 400
     except Exception as e:
-        print(f"Unexpected error: {e}")  # 📌 Debugging pentru orice eroare
         return jsonify({'message': f"Unexpected error: {e}"}), 500
     
 
+
+
+
+
 @app.route('/login', methods=['POST'])
 def login():
+    """
+    User Login
+    ---
+    tags:
+      - Authentication
+    parameters:
+      - name: body
+        in: body
+        required: true
+        schema:
+          id: Login
+          required:
+            - email
+            - password
+          properties:
+            email:
+              type: string
+              description: User's email
+            password:
+              type: string
+              description: User's password
+    responses:
+      200:
+        description: Successful login
+        schema:
+          properties:
+            message:
+              type: string
+              example: "Login successful"
+            username:
+              type: string
+            email:
+              type: string
+      401:
+        description: Invalid credentials
+        schema:
+          properties:
+            message:
+              type: string
+              example: "Invalid credentials"
+      400:
+        description: Missing data
+    """
     data = request.json
     email = data.get('email')
     password = data.get('password')
-    
+
     conn = sqlite3.connect('users.db')
     cursor = conn.cursor()
     cursor.execute("SELECT id, username, password FROM users WHERE email = ?", (email,))
@@ -136,7 +219,10 @@ def login():
 
 
 
-    
+
+
+import re
+
 from rdflib import OWL, RDF, RDFS, Graph, Namespace
 
 categories = {}
@@ -144,6 +230,14 @@ signs_name = []
 signs_properties = {}
 
 def load_ontology():
+    global categories, signs_name, signs_properties  # Asigură-te că folosești variabilele globale
+
+    # Curățăm datele pentru a preveni dublarea informațiilor
+    categories.clear()
+    signs_name.clear()
+    signs_properties.clear()
+
+    
     g = Graph()
     g.parse("TrafficSignOntology.rdf", format="xml")  # Poate fi "turtle", "n3", "nt" în funcție de format
         # Execută interogarea pentru a obține toate categoriile
@@ -163,7 +257,7 @@ def load_ontology():
     category_results = g.query(category_query)
 
     
-
+    
     for category_row in category_results:
         category_name = str(category_row.signCategoryName)
         categories[category_name] = []
@@ -172,7 +266,7 @@ def load_ontology():
         PREFIX signs: <http://www.semanticweb.org/bianca/ontologies/2025/0/signs#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-        SELECT ?signName ?signImageURL ?signDescription ?associatedSignName ?associatedSignImageUrl
+        SELECT ?signName ?signImageURL ?signDescription ?associatedSignName ?associatedSignImageUrl ?shapeName ?contourColor ?backgroundColor
         WHERE {{
             ?sign signs:signName ?signName. 
             ?sign signs:signImageURL ?signImageURL.
@@ -184,6 +278,18 @@ def load_ontology():
                 ?sign signs:hasAssociatedSign ?associatedSign.
                 ?associatedSign rdfs:label ?associatedSignName.
                 ?associatedSign signs:signImageURL ?associatedSignImageUrl.
+            }}
+
+            OPTIONAL {{
+                ?sign signs:hasShape ?shape.
+                ?shape rdfs:label ?shapeName.
+
+                ?sign signs:hasContourColor ?contour.
+                ?contour rdfs:label ?contourColor.
+
+                ?sign signs:hasBackgroundColor ?background.
+                ?background rdfs:label ?backgroundColor.
+            
             }}
            
             FILTER (STR(?signCategoryName) = "{category_name}")
@@ -203,11 +309,7 @@ def load_ontology():
                 "description": str(sign_row.signDescription),
                 "category": category_name,                  
                 })
-            # categories[category_name].append({
-            #     "name": str(sign_row.signName),
-            #     "image": str(sign_row.signImageURL),
-            #     "description": str(sign_row.signDescription)
-            # })
+
 
             # Verificăm dacă semnul există deja în listă
             existing_sign = next((s for s in categories[category_name] if s["name"] == str(sign_row.signName)), None)
@@ -225,8 +327,12 @@ def load_ontology():
                     "name": str(sign_row.signName),
                     "image": str(sign_row.signImageURL),
                     "description": str(sign_row.signDescription),
+                    "shape": str(sign_row.shapeName) if sign_row.shapeName is not None else "",
+                    "background": str(sign_row.backgroundColor) if sign_row.backgroundColor is not None else "",
+                    "contour": str(sign_row.contourColor) if sign_row.contourColor is not None else "",
                     "associatedSigns": []
                 }
+                
 
                 if sign_row.associatedSignName is not None:
                     sign_data["associatedSigns"].append({
@@ -236,9 +342,42 @@ def load_ontology():
 
                 categories[category_name].append(sign_data)  # Adăugăm semnul principal în listă
 
+
+
+
+
 @app.route('/get_signs', methods=['GET'])
 def get_signs():
-
+    """
+    Retrieve Traffic Signs from Ontology
+    ---
+    tags:
+      - Traffic Signs
+    responses:
+      200:
+        description: A list of traffic sign categories and details
+        schema:
+          type: object
+          example:
+            {
+              "Warning Signs": [
+                {
+                  "name": "Yield",
+                  "image": "http://example.com/yield.png",
+                  "description": "Yield to oncoming traffic",
+                  "shape": "Triangle",
+                  "background": "White",
+                  "contour": "Red",
+                  "associatedSigns": [
+                    {
+                      "name": "Stop",
+                      "image": "http://example.com/stop.png"
+                    }
+                  ]
+                }
+              ]
+            }
+    """
     load_ontology()
     return jsonify(categories)
 
@@ -262,6 +401,24 @@ def haversine(lat1, lon1, lat2, lon2):
 
 @app.route('/get_nearby_signs', methods=['GET'])
 def get_nearby_signs():
+    """
+    Retrieve nearby traffic signs based on latitude and longitude.
+    ---
+    parameters:
+      - name: lat
+        in: query
+        type: number
+        required: true
+        description: Latitude of the user's location
+      - name: lon
+        in: query
+        type: number
+        required: true
+        description: Longitude of the user's location
+    responses:
+      200:
+        description: List of nearby traffic signs with details
+    """
     lat = request.args.get('lat')
     lon = request.args.get('lon')
 
@@ -321,6 +478,49 @@ from datetime import datetime
 
 @app.route('/report', methods=['POST'])
 def report_issue():
+    """
+    Submit a new traffic report.
+    ---
+    parameters:
+      - name: description
+        in: body
+        type: string
+        required: true
+        description: Description of the traffic issue
+      - name: country
+        in: body
+        type: string
+        required: true
+        description: Country where the issue occurred
+      - name: county
+        in: body
+        type: string
+        required: true
+        description: County where the issue occurred
+      - name: street
+        in: body
+        type: string
+        required: true
+        description: Street where the issue occurred
+      - name: datetime
+        in: body
+        type: string
+        format: date-time
+        required: true
+        description: Date and time of the report (ISO format)
+      - name: userEmail
+        in: body
+        type: string
+        required: true
+        description: Email of the user reporting the issue
+    responses:
+      201:
+        description: Report submitted successfully
+      400:
+        description: Missing or invalid data
+      500:
+        description: Server error
+    """
     data = request.json
     issue_description = data.get('description')
     country = data.get('country')
@@ -345,7 +545,7 @@ def report_issue():
         conn.commit()
 
         # Găsim utilizatorii afectați
-        cursor.execute("SELECT email FROM users WHERE country = ? AND county = ? AND email != ?", (country.lower(), county, user_email))
+        cursor.execute("SELECT email FROM users WHERE country = ? AND county = ? AND email != ?", (country, county, user_email))
         users = cursor.fetchall()
  
         # Adăugăm notificări pentru fiecare utilizator
@@ -364,8 +564,42 @@ def report_issue():
 
 @app.route('/notifications', methods=['GET'])
 def get_notifications():
+    """
+    Retrieve user notifications.
+    ---
+    parameters:
+      - name: email
+        in: query
+        type: string
+        required: true
+        description: Email of the user to fetch notifications for
+    responses:
+      200:
+        description: A list of notifications
+        schema:
+          type: array
+          items:
+            properties:
+              id:
+                type: integer
+                description: Notification ID
+              message:
+                type: string
+                description: Notification message
+              street:
+                type: string
+                description: Street where the issue was reported
+              datetime:
+                type: string
+                format: date-time
+                description: Date and time of the notification
+      400:
+        description: Email is required
+      500:
+        description: Server error
+    """
     user_email = request.args.get('email')
-    #user_email = session.get('userEmail')  # Ia emailul din sesiune
+
 
     if not user_email:
         return jsonify({'message': 'Email is required'}), 400
@@ -390,6 +624,40 @@ def get_notifications():
 
 @app.route('/get_user_info', methods=['GET'])
 def get_user_info():
+    """
+    Retrieve user information.
+    ---
+    parameters:
+      - name: email
+        in: query
+        type: string
+        required: true
+        description: Email of the user
+    responses:
+      200:
+        description: User information retrieved successfully
+        schema:
+          type: object
+          properties:
+            username:
+              type: string
+              description: Username of the user
+            email:
+              type: string
+              description: Email of the user
+            country:
+              type: string
+              description: Country of the user
+            county:
+              type: string
+              description: County of the user
+      400:
+        description: Email is required
+      404:
+        description: User not found
+      500:
+        description: Server error
+    """
     email = request.args.get('email')
 
     if not email:
@@ -418,8 +686,40 @@ def get_user_info():
     except Exception as e:
         return jsonify({'message': f'Error: {str(e)}'}), 500
     
+
+
+    
 @app.route('/delete_notification/<int:notification_id>', methods=['DELETE'])
 def delete_notification(notification_id):
+    """
+    Delete a user notification.
+    ---
+    parameters:
+      - name: notification_id
+        in: path
+        type: integer
+        required: true
+        description: ID of the notification to be deleted
+      - name: email
+        in: body
+        required: true
+        schema:
+          type: object
+          properties:
+            email:
+              type: string
+              description: Email of the user requesting deletion
+    responses:
+      200:
+        description: Notification deleted successfully
+      400:
+        description: Email is required
+      404:
+        description: Notification not found or does not belong to the user
+      500:
+        description: Server error
+    """
+    
     user_email = request.json.get('email')  # Obține emailul din corpul cererii
 
     if not user_email:
@@ -457,6 +757,30 @@ if not os.path.exists(UPLOAD_FOLDER):
 
 @app.route('/upload_profile_image', methods=['POST'])
 def upload_profile_image():
+    """
+    Upload a user profile image.
+    ---
+    consumes:
+      - multipart/form-data
+    parameters:
+      - name: profile_image
+        in: formData
+        type: file
+        required: true
+        description: The profile image file
+      - name: email
+        in: formData
+        type: string
+        required: true
+        description: Email of the user
+    responses:
+      200:
+        description: Profile image uploaded successfully
+      400:
+        description: No file provided or invalid email
+      500:
+        description: Server error
+    """
     if 'profile_image' not in request.files:  # Folosim 'profile_image' ca cheia corectă
         return jsonify({'message': 'No file provided'}), 400
 
@@ -487,6 +811,15 @@ def upload_profile_image():
     
 @app.route('/logout', methods=['POST'])
 def logout():
+    """
+    Logout the user by clearing the session.
+    ---
+    responses:
+      200:
+        description: Logged out successfully
+      500:
+        description: Server error
+    """
     try:
         # Verificăm dacă utilizatorul a facut logout
         if 'userEmail' not in session:
@@ -499,4 +832,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)  # ✅ Specifică portul
+    app.run(debug=True)

@@ -10,6 +10,8 @@ document.getElementById("showCategories").addEventListener("click", function () 
     fetchCategories();
 });
 
+const userEmail = sessionStorage.getItem("userEmail");
+
 function fetchCategories() {
     fetch('http://127.0.0.1:5000/get_signs')
         .then(response => response.json())
@@ -30,10 +32,11 @@ document.getElementById("showCategories").addEventListener("click", function () 
     } else {
         container.style.display = "none";
     }
+
+    toggleSpeech();
 });
 
 function displayCategories(categoriesData) {
-    const userEmail = sessionStorage.getItem("userEmail");
 
     if (!userEmail) {
         alert("❌ You need to be logged in to see categories.");
@@ -46,7 +49,8 @@ function displayCategories(categoriesData) {
 
     for (let category in categoriesData) {
         let btn = document.createElement("button");
-        btn.innerText = category;
+        btn.style.backgroundColor = "#e38705"; // Setează culoarea fundalului când apare
+        btn.innerText = addSpacesToCamelCase(category);
         btn.classList.add("category-btn");
         btn.onclick = function () {
             fetchSigns(categoriesData, category);
@@ -55,15 +59,17 @@ function displayCategories(categoriesData) {
     }
 }
 
-
+// Funcția care adaugă spațiu între litere mici și mari
+function addSpacesToCamelCase(text) {
+    return text.replace(/([a-z])([A-Z])/g, '$1 $2');
+}
 
 function fetchSigns(categoriesData, category) {
     const nearbySignsContainer = document.getElementById("nearbySignsContainer");
-    nearbySignsContainer.innerHTML = "";  // Curățăm semnele din apropiere înainte de a adăuga semnele pe categorii
+    nearbySignsContainer.innerHTML = "";  
 
     const container = document.getElementById("signsContainer");
-    container.innerHTML = `<h1 id="category-header" style="color:rgb(0, 0, 0);">${category}</h1>`;
-
+    container.innerHTML = `<h1 id="category-header" style="color:rgb(0, 0, 0);">${addSpacesToCamelCase(category)}</h1>`;
 
     let rowDiv = document.createElement("div");
     rowDiv.classList.add("row");
@@ -71,12 +77,39 @@ function fetchSigns(categoriesData, category) {
     categoriesData[category].forEach((sign, index) => {
         let signDiv = document.createElement("div");
         signDiv.classList.add("sign");
+        signDiv.style.position = "relative"; // Pentru a poziționa corect butoanele
+
+        let textParts = [sign.name];
+
+        if (sign.shape) {
+            textParts.push("It has " + sign.shape + " shape.");
+        }
+        if (sign.background) {
+            textParts.push("The background color is: " + sign.background + ".");
+        }
+        if (sign.contour) {
+            textParts.push("The border color is: " + sign.contour + ".");
+        }
+
+        let signDescription = textParts.join(" "); // Construim textul pentru redare vocală
+
+        let signInterpretation = sign.name + "sign. " +  sign.description
 
         signDiv.innerHTML = `
             <h2>${sign.name}</h2>
             <img src="${sign.image}" alt="${sign.name}">
             <p>${sign.description}</p>
-            
+
+            <!-- Buton pentru redare text detaliat (stânga jos) -->
+            <button class="speak-btn left-btn" onclick="toggleSpeech('${signDescription.replace(/'/g, "\\'")}')">
+                🔊
+            </button>
+
+            <!-- Buton pentru redare descriere (dreapta jos) -->
+            <button class="speak-btn right-btn" onclick="toggleSpeech('${signInterpretation.replace(/'/g, "\\'")}')">
+                📝
+            </button>
+
            <span id="associated-sign-name">
                 ${
                     sign.associatedSigns.length > 0 
@@ -89,14 +122,14 @@ function fetchSigns(categoriesData, category) {
                             `</div>
                             <div style="display: flex; gap: 10px; margin-top: 5px;">` +
                             sign.associatedSigns.map(assocSign => 
-                                `<img src="${assocSign.image}" alt="${assocSign.name}" style="width: 60px; height: 60px;">`
+                                `<img src="${assocSign.image}" alt="${assocSign.name}" style="width: 70px; height: 60px;">`
                             ).join('') +
                             `</div>
                         </div>`
                         : ''
                 }
             </span>
-                    `;
+        `;
 
         rowDiv.appendChild(signDiv);
 
@@ -106,7 +139,21 @@ function fetchSigns(categoriesData, category) {
             rowDiv.classList.add("row");
         }
     });
+}
 
+// Variabilă globală pentru gestionarea vocii
+let synth = window.speechSynthesis;
+let currentUtterance = null;
+
+// Funcție pentru a porni/opri citirea vocală
+function toggleSpeech(text) {
+    if (synth.speaking) {
+        synth.cancel(); // Oprește vorbirea dacă deja se vorbește
+    } else {
+        currentUtterance = new SpeechSynthesisUtterance(text);
+        currentUtterance.lang = "en-US"; // Schimbă limba dacă e nevoie
+        synth.speak(currentUtterance);
+    }
 }
 
 
@@ -130,7 +177,6 @@ document.getElementById("findSigns").addEventListener("click", function () {
 // Funcție pentru a crea și afișa butoanele de alegere a metodei de locație
 function displayFindMethods() {
     
-    const userEmail = sessionStorage.getItem("userEmail");
 
     if (!userEmail) {
         alert("❌ You need to be logged in to search signs.");
@@ -139,8 +185,10 @@ function displayFindMethods() {
     const findMethodContainer = document.getElementById("findMethodContainer");
     findMethodContainer.innerHTML = ""; // Curățăm containerul înainte de a adăuga butoanele
     findMethodContainer.style.display = "flex"; // Asigură-te că se afișează corect
+    
 
     let findLocationBtn = document.createElement("button");
+    findLocationBtn.style.backgroundColor = "#e38705"; // Setează culoarea fundalului când apare
     findLocationBtn.innerText = "Find Location";
     findLocationBtn.classList.add("category-btn");
     findLocationBtn.onclick = function () {
@@ -148,6 +196,7 @@ function displayFindMethods() {
     };
 
     let manuallyLocationBtn = document.createElement("button");
+    manuallyLocationBtn.style.backgroundColor = "#e38705"; // Setează culoarea fundalului când apare
     manuallyLocationBtn.innerText = "Manually Enter Location";
     manuallyLocationBtn.classList.add("category-btn");
     manuallyLocationBtn.onclick = function () {
@@ -257,7 +306,6 @@ document.getElementById("closeReport").addEventListener("click", function () {
 });
 
 document.getElementById("submitReport").addEventListener("click", function () {
-    const userEmail = sessionStorage.getItem("userEmail");
 
     if (!userEmail) {
         alert("❌ You need to be logged in to send report.");
@@ -368,7 +416,6 @@ function displayNotifications(notifications) {
 
 // Funcția pentru ștergerea notificării
 function deleteNotification(notificationId) {
-    const userEmail = sessionStorage.getItem("userEmail");
 
     if (!userEmail) {
         alert("❌ You need to be logged in to delete notifications.");
@@ -449,7 +496,8 @@ function displayUserInfo(user) {
             <h3><strong>Email:</strong> ${user.email}</h3>
             <h3><strong>Country:</strong> ${user.country}</h3>
             <h3><strong>County:</strong> ${user.county}</h3>
-            <button id="changeImageButton">Change Profile Image</button>
+            <button id="changeImageButton"></button>
+            
         `;
         
         

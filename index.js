@@ -139,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
             registerForm.style.overflowY = "auto";  // Activează scrollbar-ul vertical
 
         } else {
+            
             // Revine la poziția originală când ecranul este mare sau formularul nu e deschis
             description.style.top = "200px"; 
             description.style.left = "20px"; 
