@@ -1,5 +1,13 @@
 # Traffic-Sign-Smart-Detector
 
+## Table of Contents
+
+- [Project Description](#project-description)
+- [Technologies and Libraries Used](#technologies-and-libraries-used)
+- [External APIs](#external-apis)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributors](#contributors)
 
 ## Project description
 
