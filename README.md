@@ -9,6 +9,8 @@
 - [Usage](#usage)
 - [Contributors](#contributors)
 
+- Demo link: https://drive.google.com/drive/folders/1_6uWKVgwmnib8rO7A3BnS4_mrdRJT7bg?usp=sharing
+
 ## Project description
 
 This project develops a web-based system designed to improve urban mobility. It detects and classifies traffic signs from video recordings captured via webcams or user uploads. Using a microservice architecture, the system employs public APIs, among other technologies, to identify traffic signs along urban routes commonly traveled by vehicles, bicycles, or pedestrians.
