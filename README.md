@@ -14,17 +14,17 @@ This system extends beyond basic detection by integrating user-generated content
 ### Technologies and libraries used
 
 <ul>
-  <li>Frontend: HTML, CSS, JavaScript</li>
-  <li>Backend: Python, Flask framework for web development</li>
-  <li>RDF: Used for representing and linking data about traffic signs in a structured format</li>
-  <li>SPARQL: Query language for RDF</li>
-  <li>Swagger: Used for describing and documenting RESTful APIs</li>
+  <li>:stop_sign:	Frontend: HTML, CSS, JavaScript</li>
+  <li>:stop_sign:	Backend: Python, Flask framework for web development</li>
+  <li>:stop_sign:	RDF: Used for representing and linking data about traffic signs in a structured format</li>
+  <li>:stop_sign:	SPARQL: Query language for RDF</li>
+  <li>:stop_sign:	Swagger: Used for describing and documenting RESTful APIs</li>
 </ul>
 
 ### External APIs
 <ul>
-  <li>SpeechSynthesis: Converts text into spoken voice output</li>
-  <li>Overpass: Used for retrieving the locations of the nearest traffic signs based on user's location</li>
+  <li>:police_car:	SpeechSynthesis: Converts text into spoken voice output</li>
+  <li>:police_car:	Overpass: Used for retrieving the locations of the nearest traffic signs based on user's location</li>
 </ul>
 
 ## Installation
@@ -60,7 +60,7 @@ Users can upload images or videos of their routes without needing to authenticat
 
 ### After authentication
 Upon creating an account or logging in:
-:vertical_traffic_light:	Access to database: Users gain full access to an extensive database of traffic signs. They can explore properties of each sign or have the information read aloud for accessibility.
-:vertical_traffic_light:	Location-based services: Users can opt to share their location or allow the system to detect it, enabling them to view nearby traffic signs on a map along with their meanings.
-:vertical_traffic_light:	Community interaction: Authenticated users receive real-time notifications about events reported by other users in their vicinity. They can also report issues and contribute to the community-driven data.
+- :vertical_traffic_light:	Access to database: Users gain full access to an extensive database of traffic signs. They can explore properties of each sign or have the information read aloud for accessibility.
+- :vertical_traffic_light:	Location-based services: Users can opt to share their location or allow the system to detect it, enabling them to view nearby traffic signs on a map along with their meanings.
+- :vertical_traffic_light:	Community interaction: Authenticated users receive real-time notifications about events reported by other users in their vicinity. They can also report issues and contribute to the community-driven data.
 Profile Management: Users can view and update their profile information, including changing their profile picture.
