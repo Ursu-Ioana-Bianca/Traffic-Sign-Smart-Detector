@@ -64,3 +64,7 @@ Upon creating an account or logging in:
 - :vertical_traffic_light:	Location-based services: Users can opt to share their location or allow the system to detect it, enabling them to view nearby traffic signs on a map along with their meanings.
 - :vertical_traffic_light:	Community interaction: Authenticated users receive real-time notifications about events reported by other users in their vicinity. They can also report issues and contribute to the community-driven data.
 Profile Management: Users can view and update their profile information, including changing their profile picture.
+
+## Contributors
+- Ursu Ioana-Bianca: [@Ursu-Ioana-Bianca](https://github.com/Ursu-Ioana-Bianca/)
+- Rebegea Irina: [@irinarebegea](https://github.com/irinarebegea/)
