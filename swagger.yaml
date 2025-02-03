@@ -1,0 +1,425 @@
+openapi: 3.0.0
+info:
+  title: Traffic Signs API
+  description: Retrieve nearby traffic signs based on latitude and longitude.
+  version: 2.0.0
+paths:
+  /register:
+    post:
+      summary: User Registration
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - email
+                - password
+                - country
+                - county
+              properties:
+                username:
+                  type: string
+                  description: Username-ul utilizatorului
+                email:
+                  type: string
+                  description: Email-ul utilizatorului
+                password:
+                  type: string
+                  description: Parola utilizatorului
+                country:
+                  type: string
+                  description: Țara utilizatorului
+                county:
+                  type: string
+                  description: Județul utilizatorului
+      responses:
+        '201':
+          description: User registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "User registered successfully"
+        '400':
+          description: Missing data or duplicate entry
+        '500':
+          description: Unexpected server error
+  /login:
+    post:
+      summary: User Login
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  description: User's email
+                password:
+                  type: string
+                  description: User's password
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Login successful"
+                  username:
+                    type: string
+                  email:
+                    type: string
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Invalid credentials"
+        '400':
+          description: Missing data
+
+
+  /get_signs:
+    get:
+      summary: Retrieve Traffic Signs from Ontology
+      tags:
+        - Traffic Signs
+      responses:
+        '200':
+          description: A list of traffic sign categories and details
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  Warning Signs:
+                    - name: "Yield"
+                      image: "http://example.com/yield.png"
+                      description: "Yield to oncoming traffic"
+                      shape: "Triangle"
+                      background: "White"
+                      contour: "Red"
+                      associatedSigns:
+                        - name: "Stop"
+                          image: "http://example.com/stop.png"
+
+  /get_nearby_signs:
+    get:
+      summary: Retrieve nearby traffic signs
+      description: Retrieve nearby traffic signs based on latitude and longitude.
+      parameters:
+        - name: lat
+          in: query
+          schema:
+            type: number
+          required: true
+          description: Latitude of the user's location
+        - name: lon
+          in: query
+          schema:
+            type: number
+          required: true
+          description: Longitude of the user's location
+      responses:
+        '200':
+          description: List of nearby traffic signs with details
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      description: Unique identifier for the traffic sign
+                    type:
+                      type: string
+                      description: Type of traffic sign
+                    location:
+                      type: object
+                      properties:
+                        lat:
+                          type: number
+                        lon:
+                          type: number
+                      description: Location of the traffic sign
+
+  /map:
+    get:
+      summary: Generate a map with nearby traffic signs
+      tags:
+        - Map
+      parameters:
+        - name: lat
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Latitude of the user's location
+        - name: lon
+          in: query
+          required: true
+          schema:
+            type: number
+          description: Longitude of the user's location
+      responses:
+        '200':
+          description: A map with nearby signs in JSON format
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  latitude:
+                    type: number
+                    description: Latitude of the center of the map
+                  longitude:
+                    type: number
+                    description: Longitude of the center of the map
+                  signs:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: Name of the sign
+                        latitude:
+                          type: number
+                          description: Latitude of the sign
+                        longitude:
+                          type: number
+                          description: Longitude of the sign
+        '400':
+          description: Missing or invalid parameters
+        '500':
+          description: Server error
+
+
+
+  /report:
+    post:
+      summary: Submit a new traffic report
+      tags:
+        - Traffic Reports
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - description
+                - country
+                - county
+                - street
+                - datetime
+                - userEmail
+              properties:
+                description:
+                  type: string
+                  description: Description of the traffic issue
+                country:
+                  type: string
+                  description: Country where the issue occurred
+                county:
+                  type: string
+                  description: County where the issue occurred
+                street:
+                  type: string
+                  description: Street where the issue occurred
+                datetime:
+                  type: string
+                  format: date-time
+                  description: Date and time of the report (ISO format)
+                userEmail:
+                  type: string
+                  description: Email of the user reporting the issue
+      responses:
+        '201':
+          description: Report submitted successfully
+        '400':
+          description: Missing or invalid data
+        '500':
+          description: Server error
+
+  /notifications:
+    get:
+      summary: Retrieve user notifications
+      tags:
+        - Notifications
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Email of the user to fetch notifications for
+      responses:
+        '200':
+          description: A list of notifications
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      description: Notification ID
+                    message:
+                      type: string
+                      description: Notification message
+                    street:
+                      type: string
+                      description: Street where the issue was reported
+                    datetime:
+                      type: string
+                      format: date-time
+                      description: Date and time of the notification
+        '400':
+          description: Email is required
+        '500':
+          description: Server error
+
+  /delete_notification/{notification_id}:
+    delete:
+      summary: Delete a user notification
+      tags:
+        - Notifications
+      parameters:
+        - name: notification_id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID of the notification to be deleted
+        - name: email
+          in: body
+          required: true
+          schema:
+            type: string
+          description: Email of the user who owns the notification
+      responses:
+        '200':
+          description: Notification deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Notification deleted successfully"
+        '400':
+          description: Email is required
+        '404':
+          description: Notification not found or does not belong to the user
+        '500':
+          description: Server error
+
+  /get_user_info:
+    get:
+      summary: Retrieve user information
+      tags:
+        - User Information
+      parameters:
+        - name: email
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Email of the user
+      responses:
+        '200':
+          description: User information retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    type: string
+                    description: Username of the user
+                  email:
+                    type: string
+                    description: Email of the user
+                  country:
+                    type: string
+                    description: Country of the user
+                  county:
+                    type: string
+                    description: County of the user
+        '400':
+          description: Email is required
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+
+  /upload-profile-image:
+    post:
+      summary: Upload a user profile image
+      tags:
+        - User
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required:
+                - profile_image
+                - email
+              properties:
+                profile_image:
+                  type: string
+                  format: binary
+                  description: The profile image file
+                email:
+                  type: string
+                  description: Email of the user
+      responses:
+            '200':
+              description: Profile image uploaded successfully
+            '400':
+              description: No file provided or invalid email
+            '500':
+              description: Server error
+
+  /logout:
+    post:
+      summary: Logout the user
+      tags:
+        - Authentication
+      description: Clears the user session and logs them out.
+      responses:
+        '200':
+          description: Logged out successfully
+        '500':
+          description: Server error

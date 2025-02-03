@@ -1,6 +1,6 @@
 import os
 
-DARKNET_PATH = r"D:\Code\darknet\darknet\build\darknet\x64"
+DARKNET_PATH = r"D:\darknet\darknet\build\darknet\x64"
 DARKNET_EXECUTABLE = os.path.join(DARKNET_PATH, "darknet_no_gpu.exe")
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))

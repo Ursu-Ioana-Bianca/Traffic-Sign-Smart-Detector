@@ -88,7 +88,7 @@ body::before {
     padding: 20px;
     border-radius: 15px;
     background: linear-gradient(to right, transparent, gray);
-    box-shadow: 
+    box-shadow:
         inset 0 1px 5px rgba(255, 255, 255, 0.6),
         0 8px 16px rgba(0, 0, 0, 0.2),
         0 4px 6px rgba(0, 0, 0, 0.1);
@@ -126,7 +126,7 @@ body::before {
     background: linear-gradient(to right, transparent, gray);
     color: white;
     border: 2px solid rgba(255, 255, 255, 0.6);
-    box-shadow: 
+    box-shadow:
         inset 0 1px 3px rgba(0, 0, 0, 0.2),
         0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -145,7 +145,7 @@ body::before {
     border: 2px solid rgba(255, 255, 255, 0.6);
     border-radius: 5px;
     background: linear-gradient(to right, transparent, gray);
-    box-shadow: 
+    box-shadow:
         inset 0 1px 3px rgba(0, 0, 0, 0.2),
         0 4px 6px rgba(0, 0, 0, 0.1);
     color: white;
@@ -160,7 +160,7 @@ body::before {
 
 .form input:focus,
 .form select:focus {
-    box-shadow: 
+    box-shadow:
         0 0 8px rgba(255, 179, 0, 0.6),
         inset 0 1px 5px rgba(255, 255, 255, 0.6);
     transform: scale(1.02);
@@ -244,19 +244,28 @@ body::before {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.hidden-buttons .button-container {
-    position: relative;
-    display: flex;
-    align-items: center;
+/*.hidden-buttons .button-container {*/
+/*    position: relative;*/
+/*    display: flex;*/
+/*    align-items: center;*/
+/*}*/
+
+#video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none; /* Hidden by default */
 }
 
 .hidden-buttons .button-text {
-    position: absolute;
-    right: 120%;
+    /*position: absolute;*/
+    /*right: 120%;*/
     color: white;
     font-size: 25px;
     opacity: 0;
     transition: opacity 0.5s ease;
+    text-align: center;
 }
 
 .hidden-buttons.show-buttons .button-text {
@@ -346,14 +355,16 @@ body::before {
     }
 }
     </style>
+    <link rel="stylesheet" href="/static/styles/index.css">
+
     <script src="../static/index.js"></script>
 </head>
 <body>
     <div class="header">
         <button id="login-button" onclick="toggleForm('login')">Login</button>
         <button id="register-button" onclick="toggleForm('register')">Register</button>
-        <button onclick="window.location.href='about.html'">About Us</button>
-        <button onclick="window.location.href='help.html'">Help</button>
+        <button onclick="window.location.href='/about'">About Us</button>
+        <button onclick="window.location.href='/help'">Help</button>
     </div>
 
     <div class="center">
@@ -417,14 +428,10 @@ body::before {
             </div>
             <div class="button-container">
                 <button class="webcam-button">W</button>
-                <video id="video" width="640" height="480" autoplay hidden></video>
                 <div class="button-text">Webcam</div>
             </div>
-            <div class="button-container">
-                <button id="stop-cam-button">S</button>
-                <div class="button-text">Stop webcam</div>
-            </div>
         </div>
+        <video id="video" width="640" height="480" autoplay hidden></video>
     </div>
 
     <script>

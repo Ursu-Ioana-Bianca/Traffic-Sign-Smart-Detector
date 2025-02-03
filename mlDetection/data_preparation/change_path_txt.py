@@ -21,7 +21,7 @@ def update_file_paths(new_train_location, new_test_location):
 if __name__ == "__main__":
     # Set the location of train/test folders on your computer.
     # Modify only these variables.
-    new_train_location = r'D:\Documents\MASTER\Web\prepare_gtsrb\Traffic-Signs-Data-German\filtered_dataset\train'
-    new_test_location = r'D:\Documents\MASTER\Web\prepare_gtsrb\Traffic-Signs-Data-German\filtered_dataset\test'
+    new_train_location = r'D:\prepare_gtsrb\prepare_gtsrb\prepare_gtsrb\Traffic-Signs-Data-German\filtered_dataset\train'
+    new_test_location = r'D:\prepare_gtsrb\prepare_gtsrb\prepare_gtsrb\Traffic-Signs-Data-German\filtered_dataset\test'
 
     update_file_paths(new_train_location, new_test_location)

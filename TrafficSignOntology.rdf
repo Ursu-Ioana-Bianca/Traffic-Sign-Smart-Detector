@@ -30,6 +30,12 @@
     
 
 
+    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasBorderColor -->
+
+    <owl:AnnotationProperty rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasBorderColor"/>
+    
+
+
     <!-- 
     ///////////////////////////////////////////////////////////////////////////////////////
     //
@@ -1691,7 +1697,7 @@
         <signs:description>It is installed in the area where the traffic speed must be limited to 30 km/h.</signs:description>
         <signs:hasText>AREA</signs:hasText>
         <signs:maxSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">30</signs:maxSpeed>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/b0716dbfa31e560b6d36f5fb854b43dd.png</signs:signImageURL>
+        <signs:signImageURL>https://hirstsigns.co.uk/wp-content/uploads/2023/03/670_30-sign.jpg</signs:signImageURL>
         <signs:signName>Area with speed limit of 30 km/h</signs:signName>
         <rdfs:label xml:lang="en">AreaSpeedLimit30Sign</rdfs:label>
     </owl:NamedIndividual>
@@ -2841,7 +2847,7 @@
         <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
         <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EntryRestrictionSign"/>
         <signs:description>It is placed at the entrance to public roads where motorcycles are not allowed.</signs:description>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/5682d5a35a76063e7c13a6cc659f444f.png</signs:signImageURL>
+        <signs:signImageURL>https://www.codrutier.ro/storage/images/181d341790d5c165231bc17c397de1b1.png</signs:signImageURL>
         <signs:signName>No Entry for Bicycles</signs:signName>
         <rdfs:label xml:lang="en">NoEntryBicyclesSign</rdfs:label>
     </owl:NamedIndividual>
@@ -3078,6 +3084,7 @@
         <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
         <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EntryRestrictionSign"/>
         <signs:description>It is placed at the entrance to public roads where motorcycles are not allowed.</signs:description>
+        <signs:hasSymbol>Inside the circle, there is typically a motorcycle icon or silhouette to represent a motorcycle.</signs:hasSymbol>
         <signs:signImageURL>https://www.codrutier.ro/storage/images/d336ab0c3fd75071e88ff71e5e72cd05.png</signs:signImageURL>
         <signs:signName>No Entry for Motorcycles</signs:signName>
         <rdfs:label xml:lang="en">NoEntryMotorcyclesSign</rdfs:label>
@@ -3125,6 +3132,7 @@
         <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
         <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EntryRestrictionSign"/>
         <signs:description>It prohibits pedestrian access on the designated public road section. If the sign is placed on only one side of the road, pedestrian traffic is prohibited only on that side. To prohibit pedestrian access on both sides, two signs must be installed, one on each side.</signs:description>
+        <signs:hasSymbol>The central symbol typically features a human figure or pedestrian icon (depicted as a simple person walking).</signs:hasSymbol>
         <signs:signImageURL>https://www.codrutier.ro/storage/images/41c558f5fbc2fbe5f0448ceb4dfb1376.png</signs:signImageURL>
         <signs:signName>No Entry for Pedestrians</signs:signName>
         <rdfs:label xml:lang="en">NoEntryPedestriansSign</rdfs:label>
@@ -3166,6 +3174,7 @@
         <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
         <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EntryRestrictionSign"/>
         <signs:description>It is generally placed on one-way streets, on the side where traffic is not allowed. It prohibits access to all vehicles (including bicycles and animal-drawn vehicles). This sign may be accompanied by an additional panel specifying the categories of vehicles allowed to enter that road section, which are exempt from this restriction.</signs:description>
+        <signs:hasSymbol>The central symbol consists of a horizontal white bar  which spans across the center of the sign.</signs:hasSymbol>
         <signs:signImageURL>https://www.codrutier.ro/storage/images/2a1ecd23bfd990989551f8209f6faa6f.png</signs:signImageURL>
         <signs:signName>No Entry</signs:signName>
         <rdfs:label xml:lang="en">NoEntrySign</rdfs:label>
@@ -3258,6 +3267,63 @@
         <signs:signImageURL>https://www.codrutier.ro/storage/images/727be9ccd6bc2617ed232dd499c15d88.png</signs:signImageURL>
         <signs:signName>No Left Turn</signs:signName>
         <rdfs:label xml:lang="en">NoLeftTurnSign</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#NoOvertaking -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#NoOvertaking">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#appliesTo"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasAssociatedSign"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndAllRestrictions"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasAssociatedSign"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndNoOvertaking"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasBackgroundColor"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasContourColor"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Red"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasShape"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+            </owl:Restriction>
+        </rdf:type>
+        <signs:appliesTo rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+        <signs:category rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ProhibitorySigns"/>
+        <signs:hasAssociatedSign rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndAllRestrictions"/>
+        <signs:hasAssociatedSign rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EndNoOvertaking"/>
+        <signs:hasBackgroundColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+        <signs:hasContourColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Red"/>
+        <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+        <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ManeuverRestrictionSign"/>
+        <signs:description>The sign is used to instruct drivers that it is not safe to overtake the vehicle in front.</signs:description>
+        <signs:hasSymbol>A black car or vehicle silhouette.
+A diagonal red line crossing through the vehicle, symbolizing the restriction on overtaking.</signs:hasSymbol>
+        <signs:signImageURL>https://hirstsigns.co.uk/wp-content/uploads/2023/03/632-sign.jpg</signs:signImageURL>
+        <signs:signName>No Overtaking</signs:signName>
+        <rdfs:label xml:lang="en">NoOvertaking</rdfs:label>
     </owl:NamedIndividual>
     
 
@@ -3366,6 +3432,8 @@
         <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
         <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ManeuverRestrictionSign"/>
         <signs:description>It is installed before an intersection where right turns are prohibited, either due to one-way traffic on that road or because the maneuver would endanger other road users. The restriction ends after the first intersection.</signs:description>
+        <signs:hasSymbol>The central symbol shows a right-turn arrow (a curved arrow pointing to the right).
+The arrow is crossed out with a diagonal red line running from the top left to the bottom right, clearly indicating that the turn is not allowed.</signs:hasSymbol>
         <signs:signImageURL>https://www.codrutier.ro/storage/images/d1dfa44af95616adba8bd270e793a434.png</signs:signImageURL>
         <signs:signName>No Right Turn</signs:signName>
         <rdfs:label xml:lang="en">NoRightTurnSign</rdfs:label>
@@ -3507,6 +3575,8 @@
         <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
         <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ManeuverRestrictionSign"/>
         <signs:description>This sign prohibits U-turns in the designated area, as executing this maneuver could pose a danger to other road users.</signs:description>
+        <signs:hasSymbol>The central symbol shows a U-turn arrow, which is an arrow that makes a 180-degree turn.
+The U-turn arrow is crossed out with a diagonal red line running from the top left to the bottom right, indicating that U-turns are not allowed at that location.</signs:hasSymbol>
         <signs:signImageURL>https://www.codrutier.ro/storage/images/743020886f986904a607e917cd571790.png</signs:signImageURL>
         <signs:signName>No U-Turn</signs:signName>
         <rdfs:label xml:lang="en">NoUTurnSign</rdfs:label>
@@ -4296,6 +4366,307 @@
     
 
 
+    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit100Sign -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit100Sign">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#appliesTo"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasBackgroundColor"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasShape"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#isPartOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+            </owl:Restriction>
+        </rdf:type>
+        <signs:appliesTo rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+        <signs:category rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ProhibitorySigns"/>
+        <signs:hasBackgroundColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+        <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+        <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+        <signs:description>It is installed in the area where the traffic speed must be limited to 100 km/h.</signs:description>
+        <signs:hasText>AREA</signs:hasText>
+        <signs:maxSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">100</signs:maxSpeed>
+        <signs:signImageURL>https://c8.alamy.com/comp/EAEYB6/100-kph-speed-limit-road-traffic-sign-EAEYB6.jpg</signs:signImageURL>
+        <signs:signName>Speed limit of 100 km/h</signs:signName>
+        <signs:hasBorderColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Red"/>
+        <rdfs:label xml:lang="en">SpeedLimit100Sign</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit130Sign -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit130Sign">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#appliesTo"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasBackgroundColor"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasShape"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#isPartOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+            </owl:Restriction>
+        </rdf:type>
+        <signs:appliesTo rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+        <signs:category rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ProhibitorySigns"/>
+        <signs:hasBackgroundColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+        <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+        <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+        <signs:description>It is installed in the area where the traffic speed must be limited to 130 km/h.</signs:description>
+        <signs:hasText>AREA</signs:hasText>
+        <signs:maxSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">130</signs:maxSpeed>
+        <signs:signImageURL>https://tbkconsult.com/wp-content/uploads/2017/07/speedlimit-130.jpg</signs:signImageURL>
+        <signs:signName>Speed limit of 130 km/h</signs:signName>
+        <signs:hasBorderColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Red"/>
+        <rdfs:label xml:lang="en">SpeedLimit130Sign</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit30Sign -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit30Sign">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#appliesTo"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasBackgroundColor"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasShape"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#isPartOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+            </owl:Restriction>
+        </rdf:type>
+        <signs:appliesTo rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+        <signs:category rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ProhibitorySigns"/>
+        <signs:hasBackgroundColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+        <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+        <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+        <signs:description>It is installed in the area where the traffic speed must be limited to 30 km/h.</signs:description>
+        <signs:hasText>AREA</signs:hasText>
+        <signs:maxSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">30</signs:maxSpeed>
+        <signs:signImageURL>https://www.safetysignsandnotices.co.uk/image/cache/catalog/old_products/671_30-500x300.gif</signs:signImageURL>
+        <signs:signName>Speed limit of 30 km/h</signs:signName>
+        <signs:hasBorderColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Red"/>
+        <rdfs:label xml:lang="en">SpeedLimit30Sign</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit40Sign -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit40Sign">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#appliesTo"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasBackgroundColor"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasShape"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#isPartOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+            </owl:Restriction>
+        </rdf:type>
+        <signs:appliesTo rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+        <signs:category rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ProhibitorySigns"/>
+        <signs:hasBackgroundColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+        <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+        <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+        <signs:description>It is installed in the area where the traffic speed must be limited to 40 km/h.</signs:description>
+        <signs:hasText>AREA</signs:hasText>
+        <signs:maxSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">40</signs:maxSpeed>
+        <signs:signImageURL>https://www.shutterstock.com/image-vector/traffic-sign-speed-limit-40-260nw-1455040964.jpg</signs:signImageURL>
+        <signs:signName>Speed limit of 40 km/h</signs:signName>
+        <signs:hasBorderColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Red"/>
+        <rdfs:label xml:lang="en">SpeedLimit40Sign</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit50Sign -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit50Sign">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#appliesTo"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasBackgroundColor"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasShape"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#isPartOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+            </owl:Restriction>
+        </rdf:type>
+        <signs:appliesTo rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+        <signs:category rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ProhibitorySigns"/>
+        <signs:hasBackgroundColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+        <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+        <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+        <signs:description>It is installed in the area where the traffic speed must be limited to 50 km/h.</signs:description>
+        <signs:hasText>AREA</signs:hasText>
+        <signs:maxSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">50</signs:maxSpeed>
+        <signs:signImageURL>https://st.depositphotos.com/1006706/3197/i/950/depositphotos_31974785-stock-photo-50-speed-limit-sign.jpg</signs:signImageURL>
+        <signs:signName>Speed limit of 50 km/h</signs:signName>
+        <signs:hasBorderColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Red"/>
+        <rdfs:label xml:lang="en">SpeedLimit50Sign</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit60Sign -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit60Sign">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#appliesTo"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasBackgroundColor"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasShape"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#isPartOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+            </owl:Restriction>
+        </rdf:type>
+        <signs:appliesTo rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+        <signs:category rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ProhibitorySigns"/>
+        <signs:hasBackgroundColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+        <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+        <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+        <signs:description>It is installed in the area where the traffic speed must be limited to 60 km/h.</signs:description>
+        <signs:hasText>AREA</signs:hasText>
+        <signs:maxSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">60</signs:maxSpeed>
+        <signs:signImageURL>https://banner2.cleanpng.com/20180626/fk/aazwa0xvy.webp</signs:signImageURL>
+        <signs:signName>Speed limit of 60 km/h</signs:signName>
+        <signs:hasBorderColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Red"/>
+        <rdfs:label xml:lang="en">SpeedLimit60Sign</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
+    <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit80Sign -->
+
+    <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimit80Sign">
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#appliesTo"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasBackgroundColor"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#hasShape"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+            </owl:Restriction>
+        </rdf:type>
+        <rdf:type>
+            <owl:Restriction>
+                <owl:onProperty rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#isPartOf"/>
+                <owl:someValuesFrom rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+            </owl:Restriction>
+        </rdf:type>
+        <signs:appliesTo rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#AllVehicles"/>
+        <signs:category rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#ProhibitorySigns"/>
+        <signs:hasBackgroundColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#White"/>
+        <signs:hasShape rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Circular"/>
+        <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedRestrictionSign"/>
+        <signs:description>It is installed in the area where the traffic speed must be limited to 80 km/h.</signs:description>
+        <signs:hasText>AREA</signs:hasText>
+        <signs:maxSpeed rdf:datatype="http://www.w3.org/2001/XMLSchema#decimal">80</signs:maxSpeed>
+        <signs:signImageURL>https://www.safetysignsandnotices.co.uk/image/catalog/products/80KMH_EURO_500.gif</signs:signImageURL>
+        <signs:signName>Speed limit of 80 km/h</signs:signName>
+        <signs:hasBorderColor rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#Red"/>
+        <rdfs:label xml:lang="en">SpeedLimit80Sign</rdfs:label>
+    </owl:NamedIndividual>
+    
+
+
     <!-- http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimitSign -->
 
     <owl:NamedIndividual rdf:about="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#SpeedLimitSign">
@@ -5067,3 +5438,4 @@ In the restricted area, stopping is also prohibited, which means parking, U-turn
 
 
 <!-- Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi -->
+

@@ -1,18 +1,24 @@
 import os
 import sqlite3
 
+import folium as folium
 from flasgger import Swagger
 from flask import Flask, jsonify, request, session
-from flask_cors import CORS  # ✅ Importă CORS
 from werkzeug.security import check_password_hash, generate_password_hash
+from flask_cors import CORS
+from flask_restx import Api, Resource
+
 from upload_module import configure_upload_routes, configure_webcam_routes
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True)  # Permite cookie-urile de sesiune
-# CORS(app, resources={r"/*": {"origins": "*"}})
-# CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app)  # 🔥 Permite accesul din alte porturi
+
+
 app.secret_key = os.urandom(24)
 swagger = Swagger(app)
+api = Api(app, doc='/documentation')
+
+
 
 
 def create_db():
@@ -57,7 +63,7 @@ def create_db():
 
 create_db()
 
-from datetime import datetime
+
 
 
 @app.route('/register', methods=['POST'])
@@ -162,68 +168,97 @@ def register():
 
 
 
+from flask import render_template, jsonify, request
+from werkzeug.security import check_password_hash
+import sqlite3
+
 @app.route('/login', methods=['POST'])
 def login():
     """
-    User Login
-    ---
-    tags:
-      - Authentication
-    parameters:
-      - name: body
-        in: body
-        required: true
-        schema:
-          id: Login
-          required:
-            - email
-            - password
-          properties:
-            email:
-              type: string
-              description: User's email
-            password:
-              type: string
-              description: User's password
-    responses:
-      200:
-        description: Successful login
-        schema:
-          properties:
-            message:
-              type: string
-              example: "Login successful"
-            username:
-              type: string
-            email:
-              type: string
-      401:
-        description: Invalid credentials
-        schema:
-          properties:
-            message:
-              type: string
-              example: "Invalid credentials"
-      400:
-        description: Missing data
-    """
-    data = request.json
-    email = data.get('email')
-    password = data.get('password')
+        User Login
+        ---
+        tags:
+          - Authentication
+        parameters:
+          - name: body
+            in: body
+            required: true
+            schema:
+              id: Login
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  description: User's email
+                password:
+                  type: string
+                  description: User's password
+        responses:
+          200:
+            description: Successful login
+            schema:
+              properties:
+                message:
+                  type: string
+                  example: "Login successful"
+                username:
+                  type: string
+                email:
+                  type: string
+          401:
+            description: Invalid credentials
+            schema:
+              properties:
+                message:
+                  type: string
+                  example: "Invalid credentials"
+          400:
+            description: Missing data
+        """
+    if request.method == 'POST':
+        data = request.json
+        email = data.get('email')
+        password = data.get('password')
 
-    conn = sqlite3.connect('users.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT id, username, password FROM users WHERE email = ?", (email,))
-    user = cursor.fetchone()
-    conn.close()
+        # Conectare la baza de date
+        conn = sqlite3.connect('users.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT id, username, password FROM users WHERE email = ?", (email,))
+        user = cursor.fetchone()
+        conn.close()
 
-    if not user:
-        return jsonify({'message': 'User does not exist'}), 200
+        if not user:
+            return jsonify({'message': 'User does not exist'}), 401
 
-    if check_password_hash(user[2], password):
-        return jsonify({'message': 'Login successful', 'username': user[1], 'email': email}), 200
-    else:
-        return jsonify({'message': 'Invalid credentials'}), 401
+        if check_password_hash(user[2], password):
+            # Loginul este reușit, redirecționează utilizatorul către user_page
+            return jsonify({'message': 'Login successful'}), 200
+        else:
+            return jsonify({'message': 'Invalid credentials'}), 401
+
+    # În caz de cerere GET, randează pagina de login
+    return render_template('user_page.html')
+
+@app.route('/user_page')
+def user_page():
+    return render_template('user_page.html')
+
+@app.route('/home')
+def home_page():
+    return render_template('index.html')
+
+@app.route('/about')
+def help_page():
+    return render_template('about.html')
+
+
+@app.route('/help')
+def about_page():
+    return render_template('help.html')
+
+
 
 
 from rdflib import OWL, RDF, RDFS, Graph, Namespace
@@ -268,7 +303,8 @@ def load_ontology():
         PREFIX signs: <http://www.semanticweb.org/bianca/ontologies/2025/0/signs#>
         PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 
-        SELECT ?signName ?signImageURL ?signDescription ?associatedSignName ?associatedSignImageUrl ?shapeName ?contourColor ?backgroundColor
+        SELECT ?signName ?signImageURL ?signDescription ?associatedSignName ?associatedSignImageUrl 
+                ?shapeName ?contourColor ?backgroundColor
         WHERE {{
             ?sign signs:signName ?signName. 
             ?sign signs:signImageURL ?signImageURL.
@@ -291,6 +327,7 @@ def load_ontology():
 
                 ?sign signs:hasBackgroundColor ?background.
                 ?background rdfs:label ?backgroundColor.
+                
             
             }}
            
@@ -308,20 +345,27 @@ def load_ontology():
             signs_properties[str(sign_row.signName)].append({
                 "image": str(sign_row.signImageURL),
                 "description": str(sign_row.signDescription),
-                "category": category_name,                  
-                })
+                "category": category_name,
+            })
 
             # Verificăm dacă semnul există deja în listă
             existing_sign = next((s for s in categories[category_name] if s["name"] == str(sign_row.signName)), None)
 
             if existing_sign:
-                # Dacă semnul există deja, adăugăm doar semnul asociat
+                # Dacă semnul există deja, verificăm dacă semnul asociat nu este deja adăugat
                 if sign_row.associatedSignName is not None:
-                    existing_sign["associatedSigns"].append({
-                        "name": str(sign_row.associatedSignName),
-                        "image": str(
-                            sign_row.associatedSignImageUrl) if sign_row.associatedSignImageUrl is not None else None
-                    })
+                    # Verificăm dacă semnul asociat nu există deja în lista de semne asociate
+                    associated_sign = next(
+                        (s for s in existing_sign["associatedSigns"] if s["name"] == str(sign_row.associatedSignName)),
+                        None)
+
+                    if associated_sign is None:
+                        # Dacă semnul asociat nu este în lista, îl adăugăm
+                        existing_sign["associatedSigns"].append({
+                            "name": str(sign_row.associatedSignName),
+                            "image": str(
+                                sign_row.associatedSignImageUrl) if sign_row.associatedSignImageUrl is not None else None
+                        })
             else:
                 # Dacă semnul NU există, îl creăm și îl adăugăm în listă
                 sign_data = {
@@ -333,14 +377,17 @@ def load_ontology():
                     "contour": str(sign_row.contourColor) if sign_row.contourColor is not None else "",
                     "associatedSigns": []
                 }
-                
 
                 if sign_row.associatedSignName is not None:
-                    sign_data["associatedSigns"].append({
+                    # Verificăm dacă semnul asociat nu există deja
+                    associated_sign = {
                         "name": str(sign_row.associatedSignName),
                         "image": str(
                             sign_row.associatedSignImageUrl) if sign_row.associatedSignImageUrl is not None else None
-                    })
+                    }
+                    # Verificăm dacă semnul asociat este deja în lista
+                    if associated_sign not in sign_data["associatedSigns"]:
+                        sign_data["associatedSigns"].append(associated_sign)
 
                 categories[category_name].append(sign_data)  # Adăugăm semnul principal în listă
 
@@ -472,6 +519,76 @@ def get_nearby_signs():
     return jsonify(nearby_signs)
 
 
+@app.route('/map', methods=['GET'])
+def generate_map():
+    """
+    Generate a map centered on the user's location and display nearby signs.
+    ---
+    tags:
+      - Map
+    parameters:
+      - name: lat
+        in: query
+        type: number
+        required: true
+        description: Latitude of the user's location
+      - name: lon
+        in: query
+        type: number
+        required: true
+        description: Longitude of the user's location
+    responses:
+      200:
+        description: A map with nearby signs in JSON format
+        schema:
+          type: object
+          properties:
+            latitude:
+              type: number
+              description: Latitude of the center of the map
+            longitude:
+              type: number
+              description: Longitude of the center of the map
+            signs:
+              type: array
+              items:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    description: Name of the sign
+                  latitude:
+                    type: number
+                    description: Latitude of the sign
+                  longitude:
+                    type: number
+                    description: Longitude of the sign
+      400:
+        description: Missing or invalid parameters
+      500:
+        description: Server error
+    """
+    lat = float(request.args.get('lat', 0))
+    lon = float(request.args.get('lon', 0))
+
+    # Create map centered on user location
+    m = folium.Map(location=[lat, lon], zoom_start=14)
+    folium.Marker([lat, lon], popup="You are here", icon=folium.Icon(color='blue')).add_to(m)
+
+    # Fetch nearby signs
+    signs = get_nearby_signs(lat, lon)
+
+    for sign in signs:
+        folium.Marker(
+            [sign["latitude"], sign["longitude"]],
+            popup=sign["name"],
+            icon=folium.Icon(color='red')
+        ).add_to(m)
+
+    # Return JSON response with nearby signs instead of rendering HTML
+    return jsonify({"latitude": lat, "longitude": lon, "signs": signs})
+
+
 from datetime import datetime
 
 
@@ -544,18 +661,19 @@ def report_issue():
         conn.commit()
 
         # Găsim utilizatorii afectați
-        cursor.execute("SELECT email FROM users WHERE country = ? AND county = ? AND email != ?", (country, county, user_email))
+        cursor.execute("SELECT email FROM users WHERE country = ? AND county = ? AND email != ?", (country.lower(), county, user_email))
 
         users = cursor.fetchall()
 
         # Adăugăm notificări pentru fiecare utilizator
-        for user in users:
-            cursor.execute("INSERT INTO notifications (user_email, message, street, datetime) VALUES (?, ?, ?, ?)",
-                           (user[0],
-                            f"New issue: {issue_description}<br>Reported in your area: {street}<br>Raported at: {datetime_obj} ",
-                            street, datetime_obj))
-        print(users[0])
-        conn.commit()
+        if users:
+            for user in users:
+                cursor.execute("INSERT INTO notifications (user_email, message, street, datetime) VALUES (?, ?, ?, ?)",
+                               (user[0],
+                                f"New issue: {issue_description}<br>Reported in your area: {street}<br>Raported at: {datetime_obj} ",
+                                street, datetime_obj))
+            print(users[0])
+            conn.commit()
         conn.close()
 
         return jsonify({'message': 'Report submitted successfully'}), 201
@@ -619,6 +737,40 @@ def get_notifications():
         return jsonify(notifications)
 
     except Exception as e:
+        return jsonify({'message': f'Error: {str(e)}'}), 500
+
+
+@app.route('/delete_notification/<int:notification_id>', methods=['DELETE'])
+def delete_notification(notification_id):
+    user_email = request.json.get('email')  # Obține emailul din corpul cererii
+
+    if not user_email:
+        return jsonify({'message': 'Email is required'}), 400
+
+    try:
+        conn = sqlite3.connect('users.db')
+        cursor = conn.cursor()
+
+        # Verificăm dacă notificarea există și dacă aparține utilizatorului
+        cursor.execute("SELECT * FROM notifications WHERE id = ? AND user_email = ?", (notification_id, user_email))
+        notification = cursor.fetchone()
+
+        if not notification:
+            return jsonify({'message': 'Notification not found or does not belong to the user'}), 404
+
+        # Ștergem notificarea
+        cursor.execute("DELETE FROM notifications WHERE id = ?", (notification_id,))
+        conn.commit()
+
+        conn.close()
+
+        # Trimitem un mesaj de succes
+        response = jsonify({'message': 'Notification deleted successfully'})
+        response.headers["Content-Type"] = "application/json"
+        return response, 200
+
+    except Exception as e:
+        print(f"Error during delete operation: {str(e)}")  # Înregistrează eroarea pentru debugging
         return jsonify({'message': f'Error: {str(e)}'}), 500
 
 
@@ -687,63 +839,9 @@ def get_user_info():
         return jsonify({'message': f'Error: {str(e)}'}), 500
 
 
-@app.route('/delete_notification/<int:notification_id>', methods=['DELETE'])
-def delete_notification(notification_id):
-    """
-    Delete a user notification.
-    ---
-    parameters:
-      - name: notification_id
-        in: path
-        type: integer
-        required: true
-        description: ID of the notification to be deleted
-      - name: email
-        in: body
-        required: true
-        schema:
-          type: object
-          properties:
-            email:
-              type: string
-              description: Email of the user requesting deletion
-    responses:
-      200:
-        description: Notification deleted successfully
-      400:
-        description: Email is required
-      404:
-        description: Notification not found or does not belong to the user
-      500:
-        description: Server error
-    """
-    
-    user_email = request.json.get('email')  # Obține emailul din corpul cererii
 
-    if not user_email:
-        return jsonify({'message': 'Email is required'}), 400
 
-    try:
-        conn = sqlite3.connect('users.db')
-        cursor = conn.cursor()
 
-        # Verificăm dacă notificarea există și dacă aparține utilizatorului
-        cursor.execute("SELECT * FROM notifications WHERE id = ? AND user_email = ?", (notification_id, user_email))
-        notification = cursor.fetchone()
-
-        if not notification:
-            return jsonify({'message': 'Notification not found or does not belong to the user'}), 404
-
-        # Ștergem notificarea
-        cursor.execute("DELETE FROM notifications WHERE id = ?", (notification_id,))
-        conn.commit()
-
-        conn.close()
-
-        return jsonify({'message': 'Notification deleted successfully'}), 200
-
-    except Exception as e:
-        return jsonify({'message': f'Error: {str(e)}'}), 500
 
 
 UPLOAD_FOLDER = "static/uploads"

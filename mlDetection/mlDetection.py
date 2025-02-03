@@ -1,8 +1,10 @@
-import subprocess
-import imageio.v3 as iio
-from .config import *
 # from config import *
 import json
+import subprocess
+
+import imageio.v3 as iio
+
+from .config import *
 
 IMAGE_EXTENSIONS = [".jpg", ".jpeg", ".png", ".bmp"]
 VIDEO_EXTENSIONS = [".mp4", ".avi", ".mov", ".mkv"]

@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Sign Smart Detector</title>
+    <link rel="stylesheet" href="/report_app/report.css">
+
+</head>
+<body>
+    
+    <nav class="toc">
+        <h3>Table of Contents</h3>
+        <ul>
+            <li><a href="#abstract">Abstract</a></li>
+            <li><a href="#structures">Internal Data Structures and Models</a></li>
+            <li><a href="#tehnical-aspects">Technical Aspects of Implemented APIs</a>
+                <ul>
+                    <a href="#registration">User Registration Flow</a>
+                    <a href="#login">User Login Flow</a>
+                    <a href="#logout">User Logout Flow</a>
+                    <a href="#loading">Loading Traffic Sign Ontology</a>
+                    <a href="#loading">Loading Traffic Sign Ontology</a>
+                    <a href="#api">API Endpoint for Signs</a>
+                    <a href="#fetching">Fetching and Displaying Data</a>
+                    <a href="#speech">Displaying Signs and Speech</a>
+                    <a href="#location">Find Signs By Location</a>
+                    <a href="#notification">Traffic Notifications</a>
+                    <a href="#profile">User Profile Management</a>
+                    <a href="#reporting">Traffic Issue Reporting</a>
+                </ul>
+            </li>
+            <li><a href="#rdf">RDF-Based Knowledge Model Considerations</a>
+            <li><a href="#responsive">Responsive Pages</a>
+            <li><a href="#sign-detection-procedure">Sign detection procedure</a>
+            <li><a href="#conclusion">Conclusion</a>
+           
+        </ul>
+
+    </nav>
+    <h1 style="text-align: center;">Traffic Sign Smart Detector</h1>
+
+    <section id="abstract">
+        <h2>Abstract</h2>
+        <p>Traffic Sign Smart Detector is a web application built using Python (Flask), HTML, CSS, and JavaScript that allows users to detect and interact with traffic signs through video uploads or real-time webcam input. The application provides various functionalities for both authenticated and guest users.</p>
+    </section>
+
+    <section class="user-roles">
+    <img src="/report_app/application_images/diagrama-usecase.png" class="usecase-diagram">
+    <h3>Before authentication</h3>
+    <p>
+    Users can upload images or videos of their routes without needing to authenticate. 
+    Upon uploading, the system automatically detects traffic signs and provides results, including the accuracy of the detection, 
+    and details about each traffic sign such as its name, description, and category.
+    </p>
+    <h3>After authentication</h3>
+    <p>Upon creating an account or logging in:</p>
+    <ul>
+      <li>
+        🚦 Access to database: Users gain full access to an extensive database of traffic signs. 
+        They can explore properties of each sign or have the information read aloud for accessibility. 
+    </li>
+        <li>
+            🚦 Location-based services: Users can opt to share their location or allow the system to detect it, 
+            enabling them to view nearby traffic signs on a map along with their meanings.
+        </li>
+      <li>
+        🚦 Community interaction: Authenticated users receive real-time notifications about events reported by other users in their vicinity. 
+        They can also report issues and contribute to the community-driven data. 
+      </li>
+      <li>
+        🚦 Profile Management: Users can view and update their profile information, including changing their profile picture.
+        </li>
+    </ul>
+    </p>
+</section>
+    <section id="structures">
+        <h1>Internal Data Structures and Models</h1>
+        <p>The web application leverages SQLite as its primary database, structured with three main tables:</p>
+        <ul>
+            <li><strong>Users Table:</strong> Stores user credentials, location details, and profile images.</li>
+            <li><strong>Notifications Table:</strong> Tracks user-specific alerts related to reported issues.</li>
+            <li><strong>Reports Table:</strong> Stores issue reports linked to geographical locations.</li>
+        </ul>
+        <p>These relational tables enable efficient data retrieval and management, ensuring a seamless user experience.</p>
+    </section>
+    
+    <section id="tehnical-aspects">
+        <h1>Technical Aspects of Implemented APIs</h1>
+        <p>The application employs a RESTful API architecture built using Flask. Key API endpoints include:</p>
+        <ul>
+            <li><h2>User Authentication:</h2>
+                <ul>
+                    
+                    <li>POST /register – Registers a new user and associates them with relevant notifications. 
+                        <section id="registration">
+                            <h3>A. User Registration Flow (/register)</h3>
+                            <h3>1. Frontend (UI)</h3>
+                            <ul>
+                            <li>The user fills in the registration form with:</li>
+                            <ul>
+                                <li>✅ Username, Email, Password, Country, County</li>
+                            </ul>
+                            <li>The form validates required fields and ensures passwords match.</li>
+                            <li>A POST request is sent to the Flask backend via JavaScript Fetch API.</li>
+                            <pre>
+                            let response = await fetch("http://127.0.0.1:5000/register", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ username, email, password, country, county }),
+                            });
+                        </pre>
+                </ul>
+                            </pre>
+                            <h3>2. Backend (Flask API)</h3>
+                            <p>🔹The server receives the request and extracts username, email, password, country, and county.</p>
+                            <p>🔹Validates data (ensures no empty fields).</p>
+                            <p>🔹Encrypts password using pbkdf2:sha256.</p>
+                            <p>🔹Saves user info in the users table.</p>
+                            <p>🔹Checks the reports table for existing issues in the same county & country.</p>
+                            <p>🔹If reports exist, the system creates notifications in the notifications table.</p>
+                            <p>🔹Returns a success or error response to the frontend.</p>
+                        </section>
+                    </li>
+                
+                
+                    <li>POST /login – Authenticates users using hashed credentials.
+                        <section id="login">
+                            <h3>B. User Login Flow (/login)</h3>
+                            <h3>1. Frontend (UI)</h3>
+                            <ul>
+                                <li>The user enters their email & password in the login form.</li>
+                                <li>Sends a POST request to the Flask backend.</li>
+                                <li>If authentication is successful, the user is redirected to their profile page.</li>
+                            </ul>
+                            <pre>
+                    let response = await fetch("http://127.0.0.1:5000/login", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, password }),
+                    });
+                            </pre>
+                            
+                            <h3>2. Backend (Flask API)</h3>
+                            <p>🔹The server receives email and password.</p>
+                            <p>🔹Searches for the user in the users table.</p>
+                            <p>🔹If found, verifies password hash.</p>
+                            <p>🔹If valid, returns username & email.</p>
+                            <p>🔹If invalid, returns an error message.</p>
+                        
+
+                    </li>
+
+                    <img src="/report_app/application_images/web4.PNG" alt="Description of Image" class="images-auth">
+                    <img src="/report_app/application_images/web3.PNG" alt="Description of Image" class="images-auth">
+               
+                    <li>POST /logout – Ends the user session.
+                        <section id="logout">
+                            <h3>C. User Logout Flow</h3>
+                            <p>Secure session-based logout with both frontend & backend handling.
+                                <ul>
+                               <li> ✅ Uses credentials: "include" to maintain authentication state.</li>
+                               <li> ✅ Ensures smooth user experience by clearing session data and redirecting immediately.</li>
+                                <li>✅ Idempotent logout ensures repeated requests don't cause errors.</li>
+                            </ul>
+                            </p>
+                    
+                            <h3>1. User Clicks Logout Button</h3>
+                            <pre>
+                    document.getElementById("logout").addEventListener("click", async function () {
+                        let response = await fetch("http://127.0.0.1:5000/logout", {
+                            method: "POST",
+                            credentials: "include",
+                            headers: { "Content-Type": "application/json" },
+                        });
+                    });
+                            </pre>
+                    
+                            <h3>2. Flask Backend Processes Logout</h3>
+                            <pre>
+                    @app.route('/logout', methods=['POST'])
+                    def logout():
+                        session.clear()
+                        return jsonify({'message': 'Logged out successfully!'}), 200
+                            </pre>
+                    
+                            <h3>3. Frontend Handles Logout Response</h3>
+                            <pre>
+                    alert("✅ Logged out successfully!");
+                    sessionStorage.removeItem("userEmail");
+                    window.location.href = "/home";
+                            </pre>
+                        </section>
+                    </li>
+                </ul>
+            </li>
+            <li><h2>Data Retrieval:</h2>
+                <ul>
+                    <li>GET /get_signs – Fetches traffic sign data from an RDF ontology.
+                        <section id="loading">
+                            <h3>A. Loading Traffic Sign Ontology</h3>
+                            <p>The <i>load_ontology()</i> function loads data from the RDF file. It queries categories and signs using SPARQL and stores them in Python dictionaries (<i>categories</i>, <i>signs_name</i>, <i>signs_properties</i>).</p>
+                            <p>Example SPARQL query to retrieve sign categories:</p>
+                            <pre>
+                    category_query = """
+                    PREFIX signs: <http://www.semanticweb.org/bianca/ontologies/2025/0/signs#>
+                    PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+                    SELECT DISTINCT ?signCategoryName WHERE {
+                        ?sign signs:category ?signCategory.
+                        ?signCategory rdfs:label ?signCategoryName.
+                    } ORDER BY ?signCategoryName
+                    """
+                            </pre>
+                        </section>
+                    
+                        <section id="api">
+                            <h3>B. API Endpoint for Signs</h3>
+                            <p>Flask exposes an endpoint that calls <i>load_ontology()</i> and returns a JSON response with structured sign data.</p>
+                            <p>Example response format:</p>
+                            <pre>
+                    {
+                        "Warning Signs": [
+                            {
+                                "name": "Yield",
+                                "image": "http://example.com/yield.png",
+                                "description": "Yield to oncoming traffic",
+                                "shape": "Triangle",
+                                "background": "White",
+                                "contour": "Red",
+                                "associatedSigns": [
+                                    { "name": "Stop", "image": "http://example.com/stop.png" }
+                                ]
+                            }
+                        ]
+                    }
+                            </pre>
+                        </section>
+                    
+                        <section id="fetching">
+                            <h3>C. Fetching and Displaying Data on the UI</h3>
+                            <ul>
+                                <li>JavaScript Fetch API calls the backend to retrieve sign categories when the user clicks a button.</li>
+                                <li>The categories and signs are dynamically added to the page using DOM manipulation.</li>
+                            </ul>    
+
+                            <p>Example fetch request:</p>
+                            <pre>
+                    function fetchCategories() {
+                        fetch('http://127.0.0.1:5000/get_signs')
+                            .then(response => response.json())
+                            .then(data => displayCategories(data))
+                            .catch(error => console.error('Error fetching categories:', error));
+                    }
+                            </pre>
+                        </section>
+                    
+                        <section id="speech">
+                            <h3>D. Displaying Signs and Speech Functionality</h3>
+                            <p>Signs are shown with details such as name, image, description, shape, colors, and associated signs.</p>
+                            <p>Two text-to-speech buttons are available:</p>
+                            <ul>
+                                <li>🔊 Reads sign properties (shape, colors, etc.).</li>
+                                <li>📝 Reads the sign interpretation.</li>
+                            </ul>
+                            <p>Uses SpeechSynthesis API:</p>
+                            <pre>
+                    function toggleSpeech(text) {
+                        if (synth.speaking) {
+                            synth.cancel();
+                        } else {
+                            let utterance = new SpeechSynthesisUtterance(text);
+                            utterance.lang = "en-US";
+                            synth.speak(utterance);
+                        }
+                    }
+                            </pre>
+                        </section>
+                    
+                        <section id="flow-signs">
+                            <h2>Summary of the Flow</h2>
+                            <p>1️⃣ User clicks "Show Categories" → Calls <i>/get_signs</i> API.</p>
+                            <p>2️⃣ Backend processes RDF data → Extracts categories and signs using SPARQL.</p>
+                            <p>3️⃣ Frontend receives JSON response → Dynamically displays categories.</p>
+                            <p>4️⃣ User selects a category → Fetches and displays signs with details.</p>
+                            <p>5️⃣ User clicks speech buttons → Reads sign details or interpretation aloud.</p>
+                        </section>
+                    </li>
+                    <img src="/report_app/application_images/web1.PNG" class="images">
+                    <li>GET /get_nearby_signs – Queries Overpass API to retrieve traffic signs within a 50km radius.
+                        <section id="location">
+                            <h3>Finding Signs by Location</h3>
+                            <p>The system allows users to find traffic signs based on their current location or manually entered coordinates. The data is retrieved from the backend, processed, and displayed on the frontend along with an interactive map.</p>
+                            
+                            <h4>A. Backend Flow</h4>
+                            <p><strong>1. Calculate Distance (Haversine Formula)</strong>: The backend uses the Haversine formula to compute the distance between the user’s location and the traffic signs.
+                            </p>
+                            <pre>
+                    def haversine(lat1, lon1, lat2, lon2):
+                        R = 6371  # Earth radius in km
+                        dlat = math.radians(lat2 - lat1)
+                        dlon = math.radians(lon2 - lon1)
+                        a = math.sin(dlat/2)**2 + math.cos(math.radians(lat1)) * math.cos(math.radians(lat2)) * math.sin(dlon/2)**2
+                        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1-a))
+                        return R * c  # Distance in km
+                            </pre>
+                    
+                            <p><strong>2. Query Overpass API for Traffic Signs: </strong> The backend queries Overpass API to find nearby traffic signs within a 50 km radius based on the user's latitude and longitude.
+                            </p>
+                            <pre>
+                                overpass_url = "http://overpass-api.de/api/interpreter"
+                                overpass_query = f"""
+                                [out:json];
+                                (
+                                    node["traffic_sign"](around:50000,{lat},{lon});
+                                );
+                                out body;
+                                """
+                                response = requests.get(overpass_url, params={'data': overpass_query})
+                            </pre>
+
+                            <p><strong>3. Process Sign Data:</strong> For each sign, the backend finds the closest name using RapidFuzz, matches the sign's details, and calculates the distance.</p>
+                            <pre>
+                                best_match = process.extractOne(sign_name, signs_name) 
+                                if best_match: 
+                                    sign_name = best_match[0] 
+                                    sign_image = signs_properties[sign_name][0].get('image') 
+                                    sign_description = signs_properties[sign_name][0].get('description')
+
+                            </pre>
+
+
+                            <p><strong>4. Return Nearby Signs:</strong> After processing, the backend returns a list of nearby signs with their details and calculated distances in JSON format.</p>
+                            <pre>
+                                best_match = process.extractOne(sign_name, signs_name) 
+                                if best_match: 
+                                    sign_name = best_match[0] 
+                                    sign_image = signs_properties[sign_name][0].get('image') 
+                                    sign_description = signs_properties[sign_name][0].get('description')
+
+                            </pre>
+                            <h4>B. Frontend Flow</h4>
+                            <p><strong>1. Location Methods (User Input or Geolocation):</strong>:</p>
+                            <ul>
+                                <li>The user can either allow the browser to fetch their geolocation or manually enter coordinates.</li>
+                                <li>The frontend checks for the user's action and calls the corresponding function to fetch nearby signs.</li>
+                            </ul>
+
+                            <p><strong>1.1 Fetch Location Using Geolocation API:</strong>:</p>
+                            <ul>
+                                <li>If the user allows location access, the Geolocation API is used to get the user's coordinates.</li>
+                            </ul>
+                                    
+                            <pre>
+                    function fetchLocationFromGeolocation() {
+                        navigator.geolocation.getCurrentPosition(function(position) {
+                            const latitude = position.coords.latitude;
+                            const longitude = position.coords.longitude;
+                            fetchNearbySigns(latitude, longitude);
+                        });
+                    }
+                            </pre>
+                            
+                            <p><strong>2. Fetching Nearby Signs from Backend</strong>:</p>
+                            <ul>
+                                <li>The frontend sends the retrieved coordinates (or manually entered ones) to the backend API endpoint /get_nearby_signs to get traffic sign data.
+                                </li>
+                            </ul>
+                            <pre>
+                    function fetchNearbySigns(latitude, longitude) {
+                        fetch(`http://127.0.0.1:5000/get_nearby_signs?lat=${latitude}&lon=${longitude}`)
+                            .then(response => response.json())
+                            .then(data => displayNearbySigns(data));
+                    }
+                            </pre>
+                    
+                            <p><strong>3. Display Nearby Signs</p></strong>
+                            <ul>
+                                <li>The signs are displayed in a flexible layout (grouped in rows). For each sign, its image, name, category, description, and distance from the user are shown.
+                                </li>
+                            </ul>
+                            <pre>
+                    function displayNearbySigns(signsData) {
+                        const container = document.getElementById("nearbySignsContainer");
+                        signsData.forEach(sign => {
+                            let signDiv = document.createElement("div");
+                            signDiv.classList.add("sign");
+                            signDiv.innerHTML = `
+                                ${sign.name}
+                                ${sign.image}
+                                ${sign.description}
+                                Distance: ${sign.distance} km
+                            `;
+                            container.appendChild(signDiv);
+                        });
+                    }
+                            </pre>
+                            <img src="/report_app/application_images/web7.PNG" alt="Description of Image" class="images">
+                    
+                            <p><strong>4. Map Display</p></strong>
+                            <ul>
+                                <li>The user can view a map of the nearby signs by clicking a "Show Map" button. The map is rendered using Leaflet.js, showing markers for both the user’s location and the nearby traffic signs.
+                                </li>
+                            </ul>
+                            <pre>
+                    function displayMap(signsData) {
+                        const mapDiv = document.getElementById("map");
+                        mapDiv.style.display = "block";
+                        navigator.geolocation.getCurrentPosition(position => {
+                            initMap(position.coords.latitude, position.coords.longitude, signsData);
+                        });
+                    }
+                    
+                    function initMap(latitude, longitude, signsData) {
+                        const map = L.map('map').setView([latitude, longitude], 14);
+                        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
+                        L.marker([latitude, longitude]).addTo(map).bindPopup("📍 You are here").openPopup();
+                        signsData.forEach(sign => {
+                            L.marker([sign.latitude, sign.longitude]).addTo(map).bindPopup(`<b>${sign.name}</b>`);
+                        });
+                    }
+                            </pre>
+                        </section>
+                    </li>
+
+                    <img src="/report_app/application_images/web8.PNG" alt="Description of Image" class="images">
+                    
+                   
+                    <li>GET /notifications – Fetches user-specific notifications.
+                        <section id="notification">
+                
+                            <h3>Fetching User Notifications</h3>
+                            <ol>
+                                <li>User clicks the <strong>"Notifications"</strong> button in the UI.</li>
+                                <li>Frontend sends a <i>GET</i> request to the backend (<i>/notifications?email=user@example.com</i>).</li>
+                                <li>Backend retrieves all notifications for the user from the <i>notifications</i> table.</li>
+                                <li>Notifications are displayed on the user interface.</li>
+                            </ol>
+                        
+                            <h3>Example:</h3>
+                            <ul>
+                                <li>If a user has <strong>3 pending notifications</strong>, the frontend will display them in a list.</li>
+                                <li>If no notifications exist, the UI will show a <strong>"No new notifications"</strong> message.</li>
+                            </ul>
+
+                            <img src="/report_app/application_images/web10.PNG" alt="Description of Image" class="images-notification">
+                        
+                            <h3>Relevant Code:</h3>
+                        
+                            <h4>1. Frontend (JavaScript) – Fetch Notifications</h4>
+                            <pre>
+                        fetch(`http://127.0.0.1:5000/notifications?email=${userEmail}`)
+                          .then(response => response.json())
+                          .then(data => displayNotifications(data))
+                          .catch(error => console.error('Error:', error));
+                            </pre>
+                        
+                            <h4>2. Backend (Flask) – Get Notifications</h4>
+                            <pre>
+                        @app.route('/notifications', methods=['GET'])
+                        def get_notifications():
+                            email = request.args.get('email')
+                            cursor.execute("SELECT id, message FROM notifications WHERE user_email = ?", (email,))
+                            return jsonify([{"id": row[0], "message": row[1]} for row in cursor.fetchall()])
+                            </pre>
+                        </section>
+                    </li>
+
+                    
+
+
+
+
+                    <li>GET /get_user_info – Retrieves profile details.
+                        <section id="profile">
+                            <h3>User Profile Management</h3>
+                            <p>
+                                This system enables user profile management, including retrieving user details, uploading a profile picture, 
+                                and dynamically displaying updates. The frontend (JavaScript, HTML) communicates with the backend (Flask, Python, SQLite) 
+                                through REST API calls.
+                            </p>
+
+                            <img src="/report_app/application_images/web11.PNG" alt="Description of Image" class="images-notification">
+                        
+                            <h3>Key Features:</h3>
+                            <ul>
+                                <li>✅ Retrieve personal details</li>
+                                <li>✅ Upload and update profile pictures dynamically</li>
+                                <li>✅ Display updates in real time without refreshing the page</li>
+                            </ul>
+                        
+                            <p>
+                                It uses a Flask backend, a JavaScript-based frontend, and SQLite for data storage, ensuring a smooth and efficient user experience.
+                            </p>
+                        
+                            <h3>Retrieving User Information</h3>
+                    
+                            <ol>
+                                <li>1️⃣ User clicks the <strong>“Profile”</strong> button.</li>
+                                <li>2️⃣ Frontend sends a <i>GET</i> request to <i>/get_user_info?email=user@example.com</i>.</li>
+                                <pre>
+                        fetch(`http://127.0.0.1:5000/get_user_info?email=${userEmail}`)
+                                </pre>
+                                <li>3️⃣ Backend queries the database and retrieves user details.</li>
+                                <li>4️⃣ If the user exists, backend returns JSON data.</li>
+                                <pre>
+                        { 
+                            "username": "JohnDoe", 
+                            "email": "johndoe@example.com", 
+                            "country": "USA", 
+                            "county": "California" 
+                        }
+                                </pre>
+                                <li>5️⃣ Frontend dynamically updates the UI, displaying:</li>
+                                <ul>
+                                    <li>Username</li>
+                                    <li>Email</li>
+                                    <li>Country</li>
+                                    <li>County</li>
+                                </ul>
+                            </ol>
+                        
+                            <h4>Key Features:</h4>
+                            <ul>
+                                <li>✅ Uses JavaScript Fetch API to retrieve data.</li>
+                                <li>✅ If no user is found, displays a message instead of breaking the UI.</li>
+                                <li>✅ No unnecessary API calls—data is only requested when needed.</li>
+                            </ul>
+                            
+                    </li>
+                </ul>
+            </li>
+
+            
+            <li><h2>Data Modification:</h2>
+                <ul>
+                    <li>POST /report – Allows users to submit new issue reports, notifying affected users.
+                        <p>This system enables users to report traffic issues, receive notifications, 
+                            and delete notifications by connecting the frontend (JavaScript, HTML) with the backend 
+                            (Flask, Python, SQLite) via API requests.
+                        </p>
+
+                    <section id="reporting">
+                        <h3>A. Submitting a Traffic Report</h3>
+
+                        <ol>
+                            <li>User fills the form with details (Country, County, Street, Description, Datetime).</li>
+                            <li>Frontend sends a <i>POST</i> request to <i>/report</i>.</li>
+                            <li>Backend validates the data and inserts it into the database (<i>reports</i> table).</li>
+                            <li>Backend finds affected users (same county, different email) and stores notifications in the <i>notifications</i> table.</li>
+                            <li>Backend returns a success response, and the UI displays confirmation.</li>
+                        </ol>
+
+                        <img src="/report_app/application_images/web9.PNG" alt="Description of Image" class="images-notification">
+
+                        <h3>Relevant Code:</h3>
+
+                        <h4>1. Frontend (JavaScript) – Send Report</h4>
+                        <pre>
+                    fetch('http://127.0.0.1:5000/report', { 
+                        method: 'POST', 
+                        headers: { 'Content-Type': 'application/json' }, 
+                        body: JSON.stringify(reportData) 
+                    })
+                    .then(response => response.json()) 
+                    .then(data => alert(data.message)) 
+                    .catch(error => console.error("Error:", error));
+                        </pre>
+
+                        <h4>2. Backend (Flask) – Handle Report Submission</h4>
+                        <pre>
+                    @app.route('/report', methods=['POST'])
+                    def report_issue():
+                        data = request.json
+                        cursor.execute("INSERT INTO reports (description, country, county, street, datetime) VALUES (?, ?, ?, ?, ?)", 
+                                    (data['description'], data['country'], data['county'], data['street'], data['datetime']))
+                        conn.commit()
+                        return jsonify({'message': 'Report submitted successfully'}), 201
+                        </pre>
+
+                        <h3>Example:</h3>
+                        <p>A user reports a traffic jam on <strong>Main Street, County X, Country Y</strong> at <strong>10:30 AM</strong>.</p>
+                        <p>Other users in <strong>County X</strong> receive a notification about this issue.</p>
+                    </section>
+                    </li>
+
+
+
+                    <li>DELETE /delete_notification/&lt;int:notification_id&gt; – Removes notifications from the database.
+                        <h3>B. Deleting a Notification</h3>
+                            <ol>
+                                    <li>User clicks <strong>delete</strong> on a notification.</li>
+                                    <li>Frontend sends a <i>DELETE</i> request to the backend (<i>/delete_notification/&lt;notification_id&gt;</i>).</li>
+                                    <li>Backend verifies if the notification belongs to the user and removes it from the database.</li>
+                                    <li>Notification is removed from the UI once successfully deleted.</li>
+                                </ol>
+
+                                <h3>Example:</h3>
+                                <ul>
+                                    <li><p>User receives a notification about road construction but decides to remove it.</p></li>
+                                    <li><p>The notification is deleted, and the UI updates to reflect the change.</p></li>
+                                </ul>
+
+                                <h3>Relevant Code:</h3>
+
+                                <h4>1. Frontend (JavaScript) – Delete Notification</h4>
+                                <pre>
+                            fetch(`http://127.0.0.1:5000/delete_notification/${notificationId}`, {
+                                method: 'DELETE',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ email: userEmail })
+                            })
+                            .then(response => response.json())
+                            .then(data => alert(data.message))
+                            .catch(error => console.error('Error:', error));
+                                </pre>
+
+                                <h4>2. Backend (Flask) – Delete Notification</h4>
+                                <pre>
+                            @app.route('/delete_notification/&lt;int:notification_id&gt;', methods=['DELETE'])
+                            def delete_notification(notification_id):
+                                email = request.json.get('email')
+                                cursor.execute("DELETE FROM notifications WHERE id = ? AND user_email = ?", (notification_id, email))
+                                conn.commit()
+                                return jsonify({'message': 'Notification deleted successfully'}), 200
+                                </pre>
+                    </li>
+                    <li>POST /upload_profile_image – Handles profile image uploads and updates the user database.
+                        <h3>C. Uploading a Profile Image</h3>
+                        <ol>
+                            <li>1️⃣ User selects an image using an upload button.</li>
+                            <li>2️⃣ JavaScript captures the file and sends a <i>POST</i> request to <i>/upload_profile_image</i> with:</li>
+                            <ul>
+                                <li>✅ The image file</li>
+                                <li>✅ The user’s email</li>
+                            </ul>
+                            <pre>
+                    let formData = new FormData();
+                    formData.append("email", sessionStorage.getItem("userEmail"));
+                    formData.append("profile_image", file);
+                    
+                    fetch("http://127.0.0.1:5000/upload_profile_image", { 
+                        method: "POST", 
+                        body: formData 
+                    });
+                            </pre>
+                    
+                            <li>3️⃣ Backend handles the request:</li>
+                            <ul>
+                                <li>✅ Saves the image to <i>static/uploads/</i></li>
+                                <li>✅ Updates the <i>profile_image</i> field in the database</li>
+                            </ul>
+                    
+                            <li>4️⃣ Backend responds with the image URL.</li>
+                            <pre>
+                    { 
+                        "message": "Profile image updated", 
+                        "image_url": "http://127.0.0.1:5000/static/uploads/profile.jpg" 
+                    }
+                            </pre>
+                    
+                            <li>5️⃣ Frontend updates the displayed profile picture immediately, without requiring a page refresh.</li>
+                        </ol>
+                    
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>✅ Ensures only users with valid emails can upload images.</li>
+                            <li>✅ Stores images securely in a structured folder.</li>
+                            <li>✅ Prevents browser caching issues using timestamps.</li>
+                            <li>✅ Uses <i>sessionStorage</i>/<i>localStorage</i> to avoid unnecessary API calls.</li>
+                        </ul>
+
+                        <h3>D. Displaying & Updating Profile Picture</h3>
+
+                        <h4>Flow:</h4>
+                        <ol>
+                            <li>1️⃣ When the page loads, JavaScript checks <i>sessionStorage</i> for a stored profile image URL.</li>
+                            <li>2️⃣ If found, it instantly updates the profile picture to avoid delays.</li>
+                            <li>3️⃣ If missing, a default image is displayed.</li>
+                            <li>4️⃣ When a user uploads a new image, the UI updates dynamically.</li>
+                            <li>5️⃣ A timestamp (<i>?t=</i>) is added to the image URL to force browser refresh and prevent caching issues.</li>
+                            <pre>
+                    document.getElementById("profileImage").src = data.image_url + "?t=" + new Date().getTime();
+                            </pre>
+                        </ol>
+
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>✅ Uses <i>sessionStorage</i> for fast profile picture retrieval.</li>
+                            <li>✅ Ensures images are displayed correctly without refresh.</li>
+                            <li>✅ Implements a retry mechanism if the image fails to load initially.</li>
+                        </ul>
+                        </section>
+                    </li>
+                </ul>
+
+            </li>
+
+        </ul>
+    </section>
+    
+    <section id="rdf">
+        <h2>RDF-Based Knowledge Model Considerations</h2>
+        <p>The application integrates an RDF-based ontology named TrafficSignOntology.rdf, structured using OWL and RDFS. The model categorizes traffic signs with properties such as:</p>
+        <ul>
+            <li><strong>signName:</strong> Label of the sign</li>
+            <li><strong>signImageURL:</strong> Image reference</li>
+            <li><strong>description:</strong> Detailed sign description</li>
+            <li><strong>category:</strong> Classification by type</li>
+            <li><strong>subcategory:</strong> Classification by subtype</li>
+            <li><strong>hasAssociatedSign:</strong>Sign that indicates When the restriction is over</li>
+            <li><strong>isLocatedAt:</strong>Where the sign is located(intersection, roundabout, rural area)</li>
+            <li><strong>maxSpeed & minimumSpeed:</strong>Indicates what is the minimum or maximum speed allowd</li>
+            <li><strong>appliesTo:</strong>Indicate who is affected by it</li>
+            <li><strong>signEffect:</strong>Indicate where the sign effect applies</li>
+            <li><strong>hasShape, hasContourColor, hasBackgroundColor, hasSymbol:</strong> Visual attributes</li>
+        </ul>
+        <p>SPARQL queries efficiently retrieve categorized traffic sign data, ensuring structured and semantic-rich information representation.</p>
+    </section>
+
+
+    <section id="responsive">
+        <h2>Responsive Pages</h2>
+        <p>The application ensures that the pages are responsive by dynamically adjusting the layout and elements based on the screen size. Here’s how responsiveness is implemented::</p>
+        <h2>1. Adjusting the Description Box and Forms</h2>
+        <ul>
+            <li class="list-item"><strong>When the screen width is less than 1350px, and the login or register form is open:</strong>
+                <ul>
+                    <li>The description box moves lower, shifts to the center, and its width is reduced to 60% for better readability.</li>
+                    <li>The login and register forms are repositioned higher on the page to maintain visibility.</li>
+                    <li>The register form’s height is limited, and a vertical scrollbar is enabled to improve accessibility.</li>
+                </ul>
+            </li>
+
+            <img src="/report_app/application_images/web12.PNG" alt="Description of Image" class="images-notification">
+
+            
+            <li class="list-item"><strong>When the screen width is greater than 1350px or no form is open:</strong>
+                <ul>
+                    <li>The description box returns to its original position on the left with a fixed width.</li>
+                    <li>The forms are reset to their default positioning.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>2. Flexible Grid Layout for Signs (.sign)</h2>
+        <ul>
+            <li class="list-item"><strong>Large screens (PCs & laptops):</strong>
+                <ul>
+                    <li>Signs are arranged in 3 columns per row to maximize space.</li>
+                </ul>
+            </li>
+            <li class="list-item"><strong>Tablets (≤ 1024px width):</strong>
+                <ul>
+                    <li>Signs automatically adjust to 2 columns per row for better readability.</li>
+                    <li>The side menu width is reduced to maintain a balanced layout.</li>
+                </ul>
+            </li>
+            <li class="list-item"><strong>Mobile devices (≤ 600px width):</strong>
+                <ul>
+                    <li>Signs are displayed in a single column per row to fit small screens.</li>
+                    <li>The side menu width is further reduced to save space.</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>4. Responsive Menu Button (#menuToggle)</h2>
+        <ul>
+            <li class="list-item">On mobile screens (≤ 768px):</li>
+            <ul>
+                <li>The menu button size is adjusted for better usability.</li>
+                <li>The font size is reduced to prevent overflow.</li>
+                <li>The position is fine-tuned to align properly on smaller screens.</li>
+            </ul>
+        </ul>
+    </div>
+
+    <div class="final-result">
+        <h2>Final Result:</h2>
+        <p>The website dynamically adapts to different screen sizes, ensuring a consistent and user-friendly experience on desktops, tablets, and mobile devices. 🚀</p>
+    </div>
+    </section>
+
+    <section id="sign-detection-procedure">
+        <h2>Sign detection procedure</h2>
+        <p>
+            The main component of our project is the detection of traffic signs from images and videos. For this purpose, we used <strong>YOLO</strong>, a real-time object detection system. 
+            We used the <strong>darknet</strong> framework to train and test the models. 
+        </p>
+        <p>
+            Initially, we adopted a YOLO version 3 model that detects the main categories of traffic signs: <em>prohibitory</em>, <em>danger</em>, <em>mandatory</em>, and <em>others</em>. 
+            This model was trained on a dataset of 900 images. 
+            The images were processed to conform the labels to a format accepted by the model. 
+            The training took about 8 hours on a GPU.
+            For the configuration parameters, we set it to 8,000 iterations, logging every 1,000 iterations. However, the best results were achieved at the 8,000th iteration. 
+        </p>
+        <p>
+            We also explored a second approach by training the same model, with slight modifications, on the German Traffic Sign Recognition Benchmark (GTSRB), which contains 50,000 images across 43 categories. 
+            Due to the large size of this dataset and the limited capabilities of personal computers, we reduced the number of categories to 30 and selected 225 images from each category at random. 
+            For this model configuration, we set it to undergo 60,000 iterations, but the best results (in terms of <em>mAP</em>) were achieved at 50,000 iterations. 
+            In the following picture we can see all available classes in GTSRB:
+        </p>
+        <img src="/report_app/application_images/classes.jpg" class="class-image">
+        <p>
+            This model performed worse than the first in terms of accuracy and traffic sign identification capabilities because we significantly reduced the complexity of the dataset. 
+            Many of the images retained had low luminosity or other features that affected the model’s learning capacity. The training of this model on a GPU took about 16 hours.
+            Based on the labels predicted by the model, we used a similarity function to identify the most similar entry in the ontology for a label and render the results returned by this function.
+        </p>
+
+        <p>In the next figure we see a test run on an image with a Yield sign: </p>
+        <img src="/report_app/application_images/predictions.jpg" class="class-image">
+    </section>
+
+
+    <section id="conclusion">
+        <h2>Conclusion</h2>
+        <p>This application provides a structured approach to traffic sign recognition and reporting, integrating Flask for backend logic, 
+            SQLite for data persistence, and JavaScript for interactive user experiences. The seamless interaction between users and the system ensures 
+            a functional and user-friendly platform for traffic awareness.</p>
+    </section>
+
+
+</body>
+</html>

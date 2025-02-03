@@ -1,0 +1,98 @@
+.toc {
+    background: rgb(237, 237, 236);
+    padding: 10px;
+    border-radius: 5px;
+    width: 260px;
+    
+    position: fixed;  /* Fixează poziția în pagină */
+    top: 10px;        /* Poziționează bara de navigație de sus */
+    left: 10px;       /* Poziționează bara de navigație la stânga */
+    
+    height: 700px;    /* Înălțime fixă */
+    overflow-y: auto; /* Scroll doar dacă e nevoie */
+}
+.toc a {
+    display: block;
+    padding: 5px;
+    text-decoration: none;
+    color: #000000;
+}
+.toc a:hover { text-decoration: underline; }
+section { margin-left: 270px; padding-bottom: 20px; }
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 40px;
+    line-height: 1.6;
+    background-color: rgb(237, 237, 236);
+}
+h2 {
+    color: #333;
+}
+code {
+    background-color: #f4f4f4;
+    padding: 5px;
+    display: block;
+    border-left: 3px solid #333;
+    margin: 10px 0;
+}
+nav a {
+    display: block;
+    margin: 5px 0;
+    color: #007BFF;
+    text-decoration: none;
+    background-color: rgb(229, 229, 229);
+}
+
+li > section {
+display: block;
+margin-left: 0; /* Ensures it aligns with parent content */
+padding-left: 0; /* Removes extra spacing */
+}
+
+
+.images {
+display: block;          /* Makes the image a block element */
+margin-left: auto;       /* Automatically sets the left margin */
+margin-right: auto;      /* Automatically sets the right margin */
+margin-bottom: 50px;        /* Pushes the image down (you can adjust the value) */
+width: 60%;              
+}
+
+.images-notification {
+display: block;          /* Makes the image a block element */
+margin-left: auto;       /* Automatically sets the left margin */
+margin-right: auto;      /* Automatically sets the right margin */
+margin-bottom: 50px;        /* Pushes the image down (you can adjust the value) */
+width: 60%; 
+width: 30%;              
+}
+
+.images-auth {
+display: inline-block;
+margin-bottom: 20px; /* Spațiu între imagini */
+width: 400px;
+height: 300px;
+margin-right: 50x;
+}
+
+#sign-detection-procedure > p {
+    text-indent: 2em;
+    text-align: justify;
+}
+
+.usecase-diagram {
+    display: block;
+    margin: auto;
+    width: 60%;
+}
+
+.user-roles > ul {
+    list-style-type: none;
+}
+
+.class-image {
+    display: block;
+    margin: auto;
+    width: 40%;
+}

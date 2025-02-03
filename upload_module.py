@@ -1,9 +1,10 @@
-import shutil
-from flask import request, redirect, url_for, render_template, session, jsonify
-from werkzeug.utils import secure_filename
 import os
-from rapidfuzz import process
+import shutil
 import subprocess
+
+from flask import jsonify, redirect, render_template, request, session, url_for
+from rapidfuzz import process
+from werkzeug.utils import secure_filename
 
 from mlDetection import mlDetection
 
@@ -12,7 +13,7 @@ def configure_upload_routes(app, signs_name, signs_properties):
     UPLOAD_FOLDER = os.path.join(os.getcwd(), 'uploads')
     STATIC_FOLDER = os.path.join(os.getcwd(), 'static', 'processed_uploads')
 
-    @app.route('/', methods=['GET', 'POST'])
+    @app.route('/home', methods=['GET', 'POST'])
     def index():
         if request.method == 'POST' and 'file' in request.files:
             file = request.files['file']
