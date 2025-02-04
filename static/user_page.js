@@ -84,7 +84,7 @@ function fetchSigns(categoriesData, category) {
     categoriesData[category].forEach((sign, index) => {
         let signDiv = document.createElement("div");
         signDiv.classList.add("sign");
-        signDiv.style.position = "relative"; // Pentru a poziționa corect butoanele
+        signDiv.style.position = "relative"; // Pentru a poziționa corect
 
         let textParts = [sign.name];
 
@@ -193,7 +193,7 @@ function displayFindMethods() {
 
     const findMethodContainer = document.getElementById("findMethodContainer");
     findMethodContainer.innerHTML = ""; // Curățăm containerul înainte de a adăuga butoanele
-    findMethodContainer.style.display = "flex"; // Asigură-te că se afișează corect
+    findMethodContainer.style.display = "flex"; //
     
 
     let findLocationBtn = document.createElement("button");
@@ -217,7 +217,7 @@ function displayFindMethods() {
 }
 
 
-// 📡 Funcție pentru obținerea locației prin geolocația browserului
+// 📡 Funcție pentru obținerea locației prin geolocația browserului (API-ul de Geolocație al browserului)
 function fetchLocationFromGeolocation() {
     const nearbySignsContainer = document.getElementById("nearbySignsContainer");
     nearbySignsContainer.innerHTML = "";  // Curățăm conținutul anterior
@@ -254,7 +254,7 @@ function promptForManualLocation() {
     }
 }
 
-// 📡 Funcție reutilizabilă pentru a obține semnele din apropiere
+// 📡 Funcție  pentru a obține semnele din apropiere
 function fetchNearbySigns(latitude, longitude) {
     fetch(`http://127.0.0.1:5000/get_nearby_signs?lat=${latitude}&lon=${longitude}`)
         .then(response => response.json())
@@ -364,6 +364,7 @@ function initMap(latitude, longitude, signsData) {
     console.log("📡 Rendering map with coordinates:", latitude, longitude);
     console.log("🚦 Traffic signs data:", signsData);
 
+    // Inițializează harta cu Leaflet.js
     window.myMap = L.map("map").setView([latitude, longitude], 14);
 
     // Adaugă stratul OpenStreetMap
@@ -447,8 +448,6 @@ document.getElementById("submitReport").addEventListener("click", function () {
             console.error("❌ Error:", error);
             alert("❌ Could not submit report. Please try again.");
         });
-
-
 
     } else {
         alert("⚠️ Please fill in all fields.");

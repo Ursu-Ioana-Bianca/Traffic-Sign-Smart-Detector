@@ -3085,7 +3085,7 @@
         <signs:subcategory rdf:resource="http://www.semanticweb.org/bianca/ontologies/2025/0/signs#EntryRestrictionSign"/>
         <signs:description>It is placed at the entrance to public roads where motorcycles are not allowed.</signs:description>
         <signs:hasSymbol>Inside the circle, there is typically a motorcycle icon or silhouette to represent a motorcycle.</signs:hasSymbol>
-        <signs:signImageURL>https://www.codrutier.ro/storage/images/d336ab0c3fd75071e88ff71e5e72cd05.png</signs:signImageURL>
+        <signs:signImageURL>https://www.shutterstock.com/image-photo/motorcycle-sign-no-entry-on-260nw-1511562905.jpg</signs:signImageURL>
         <signs:signName>No Entry for Motorcycles</signs:signName>
         <rdfs:label xml:lang="en">NoEntryMotorcyclesSign</rdfs:label>
     </owl:NamedIndividual>

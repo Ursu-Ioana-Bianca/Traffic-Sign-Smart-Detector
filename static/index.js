@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-        let registerButton = document.querySelector("#register-submit");
+    let registerButton = document.querySelector("#register-submit");
 
     if (!registerButton) {
         console.error("Register button not found!");

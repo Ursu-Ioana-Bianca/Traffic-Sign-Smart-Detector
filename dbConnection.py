@@ -1,14 +1,22 @@
 import os
 import sqlite3
 
+from flask import render_template
+
+
 import folium as folium
 from flasgger import Swagger
 from flask import Flask, jsonify, request, session
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_cors import CORS
-from flask_restx import Api, Resource
-
+from flask_restx import Api
 from upload_module import configure_upload_routes, configure_webcam_routes
+from rdflib import Graph
+import math
+from datetime import datetime
+
+import requests
+from rapidfuzz import process
 
 app = Flask(__name__)
 CORS(app)  # 🔥 Permite accesul din alte porturi
@@ -163,15 +171,6 @@ def register():
 
 
 
-
-
-
-
-
-from flask import render_template, jsonify, request
-from werkzeug.security import check_password_hash
-import sqlite3
-
 @app.route('/login', methods=['POST'])
 def login():
     """
@@ -259,10 +258,6 @@ def about_page():
     return render_template('help.html')
 
 
-
-
-from rdflib import OWL, RDF, RDFS, Graph, Namespace
-
 categories = {}
 signs_name = []
 signs_properties = {}
@@ -282,9 +277,8 @@ def load_ontology():
     # Execută interogarea pentru a obține toate categoriile
     category_query = """
     PREFIX signs: <http://www.semanticweb.org/bianca/ontologies/2025/0/signs#>
-            PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
-    PREFIX signs: <http://www.semanticweb.org/bianca/ontologies/2025/0/signs#>
     PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
 
     SELECT DISTINCT ?signCategoryName
     WHERE {
@@ -328,7 +322,6 @@ def load_ontology():
                 ?sign signs:hasBackgroundColor ?background.
                 ?background rdfs:label ?backgroundColor.
                 
-            
             }}
            
             FILTER (STR(?signCategoryName) = "{category_name}")
@@ -392,7 +385,6 @@ def load_ontology():
                 categories[category_name].append(sign_data)  # Adăugăm semnul principal în listă
 
 
-
 load_ontology()
 configure_upload_routes(app, signs_name, signs_properties)
 configure_webcam_routes(app)
@@ -434,12 +426,6 @@ def get_signs():
     return jsonify(categories)
 
 
-import math
-
-import requests
-from rapidfuzz import process
-
-
 # Funcție pentru calculul distanței dintre două puncte GPS (Haversine formula)
 def haversine(lat1, lon1, lat2, lon2):
     R = 6371  # Raza Pământului în km
@@ -479,7 +465,7 @@ def get_nearby_signs():
     overpass_query = f"""
     [out:json];
     (
-        node["traffic_sign"](around:50000,{lat},{lon});
+        node["traffic_sign"](around:35000,{lat},{lon});
     );
     out body;
     """
@@ -500,8 +486,7 @@ def get_nearby_signs():
             best_match = process.extractOne(sign_name, signs_name)
             if best_match:
                 sign_name = best_match[0]
-                print(signs_properties[sign_name][0].get('image')
-                      )
+                print(signs_properties[sign_name][0].get('image'))
                 sign_image = signs_properties[sign_name][0].get('image')
                 sign_description = signs_properties[sign_name][0].get('description')
                 sign_category = signs_properties[sign_name][0].get('category')
@@ -585,11 +570,9 @@ def generate_map():
             icon=folium.Icon(color='red')
         ).add_to(m)
 
-    # Return JSON response with nearby signs instead of rendering HTML
+    # Return JSON response with nearby signs
     return jsonify({"latitude": lat, "longitude": lon, "signs": signs})
 
-
-from datetime import datetime
 
 
 @app.route('/report', methods=['POST'])
@@ -819,7 +802,7 @@ def get_user_info():
         conn = sqlite3.connect('users.db')
         cursor = conn.cursor()
 
-        cursor.execute("SELECT username, email, country, county FROM users WHERE email = ?", (email,))
+        cursor.execute("SELECT username, email, UPPER(country), county FROM users WHERE email = ?", (email,))
         user = cursor.fetchone()
 
         conn.close()
@@ -837,11 +820,6 @@ def get_user_info():
 
     except Exception as e:
         return jsonify({'message': f'Error: {str(e)}'}), 500
-
-
-
-
-
 
 
 UPLOAD_FOLDER = "static/uploads"
@@ -877,10 +855,10 @@ def upload_profile_image():
       500:
         description: Server error
     """
-    if 'profile_image' not in request.files:  # Folosim 'profile_image' ca cheia corectă
+    if 'profile_image' not in request.files:
         return jsonify({'message': 'No file provided'}), 400
 
-    file = request.files['profile_image']  # Accesăm fișierul cu cheia corectă
+    file = request.files['profile_image']  # Accesăm fișierul
     user_email = request.form.get('email')
 
     if not user_email:

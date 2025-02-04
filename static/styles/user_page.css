@@ -450,7 +450,7 @@ button:hover {
 
 
  /* Stil pentru containerul ce conține titlul și butonul */
-        .header-container {
+       .header-container {
             display: flex; /* Folosește flexbox pentru a alinia elementele pe aceeași linie */
             justify-content: center; /* Centrează pe orizontală */
             align-items: center; /* Centrează pe verticală */
