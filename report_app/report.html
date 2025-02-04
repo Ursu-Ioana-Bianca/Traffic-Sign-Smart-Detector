@@ -7,7 +7,108 @@
     <link rel="stylesheet" href="/report_app/report.css">
 
 </head>
-<body>
+
+    <style>
+        .toc {
+            background: rgb(237, 237, 236);
+            padding: 10px;
+            border-radius: 5px;
+            width: 260px;
+            
+            position: fixed;  /* Fixează poziția în pagină */
+            top: 10px;        /* Poziționează bara de navigație de sus */
+            left: 10px;       /* Poziționează bara de navigație la stânga */
+            
+            height: 700px;    /* Înălțime fixă */
+            overflow-y: auto; /* Scroll doar dacă e nevoie */
+        }
+        .toc a {
+            display: block;
+            padding: 5px;
+            text-decoration: none;
+            color: #000000;
+        }
+        .toc a:hover { text-decoration: underline; }
+        section { margin-left: 270px; padding-bottom: 20px; }
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+            background-color: rgb(237, 237, 236);
+        }
+        h2 {
+            color: #333;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 5px;
+            display: block;
+            border-left: 3px solid #333;
+            margin: 10px 0;
+        }
+        nav a {
+            display: block;
+            margin: 5px 0;
+            color: #007BFF;
+            text-decoration: none;
+            background-color: rgb(229, 229, 229);
+        }
+
+        li > section {
+        display: block;
+        margin-left: 0; /* Ensures it aligns with parent content */
+        padding-left: 0; /* Removes extra spacing */
+        }
+
+
+        .images {
+        display: block;          /* Makes the image a block element */
+        margin-left: auto;       /* Automatically sets the left margin */
+        margin-right: auto;      /* Automatically sets the right margin */
+        margin-bottom: 50px;        /* Pushes the image down (you can adjust the value) */
+        width: 60%;              
+        }
+
+        .images-notification {
+        display: block;          /* Makes the image a block element */
+        margin-left: auto;       /* Automatically sets the left margin */
+        margin-right: auto;      /* Automatically sets the right margin */
+        margin-bottom: 50px;        /* Pushes the image down (you can adjust the value) */
+        width: 60%; 
+        width: 30%;              
+        }
+
+        .images-auth {
+        display: inline-block;
+        margin-bottom: 20px; /* Spațiu între imagini */
+        width: 400px;
+        height: 300px;
+        margin-right: 50x;
+        }
+
+        #sign-detection-procedure > p {
+            text-indent: 2em;
+            text-align: justify;
+        }
+
+        .usecase-diagram {
+            display: block;
+            margin: auto;
+            width: 60%;
+        }
+
+        .user-roles > ul {
+            list-style-type: none;
+        }
+
+        .class-image {
+            display: block;
+            margin: auto;
+            width: 40%;
+        }
+
+        </style>
     
     <nav class="toc">
         <h3>Table of Contents</h3>
@@ -46,7 +147,7 @@
     </section>
 
     <section class="user-roles">
-    <img src="/report_app/application_images/diagrama-usecase.png" class="usecase-diagram">
+    <img src="application_images/diagrama-usecase.png" class="usecase-diagram">
     <h3>Before authentication</h3>
     <p>
     Users can upload images or videos of their routes without needing to authenticate. 
@@ -151,8 +252,8 @@
 
                     </li>
 
-                    <img src="/report_app/application_images/web4.PNG" alt="Description of Image" class="images-auth">
-                    <img src="/report_app/application_images/web3.PNG" alt="Description of Image" class="images-auth">
+                    <img src="application_images/web4.PNG" alt="Description of Image" class="images-auth">
+                    <img src="application_images/web3.PNG" alt="Description of Image" class="images-auth">
                
                     <li>POST /logout – Ends the user session.
                         <section id="logout">
@@ -285,7 +386,7 @@
                             <p>5️⃣ User clicks speech buttons → Reads sign details or interpretation aloud.</p>
                         </section>
                     </li>
-                    <img src="/report_app/application_images/web1.PNG" class="images">
+                    <img src="application_images/web1.PNG" class="images">
                     <li>GET /get_nearby_signs – Queries Overpass API to retrieve traffic signs within a 50km radius.
                         <section id="location">
                             <h3>Finding Signs by Location</h3>
@@ -394,7 +495,7 @@
                         });
                     }
                             </pre>
-                            <img src="/report_app/application_images/web7.PNG" alt="Description of Image" class="images">
+                            <img src="application_images/web7.PNG" alt="Description of Image" class="images">
                     
                             <p><strong>4. Map Display</p></strong>
                             <ul>
@@ -422,7 +523,7 @@
                         </section>
                     </li>
 
-                    <img src="/report_app/application_images/web8.PNG" alt="Description of Image" class="images">
+                    <img src="application_images/web8.PNG" alt="Description of Image" class="images">
                     
                    
                     <li>GET /notifications – Fetches user-specific notifications.
@@ -442,7 +543,7 @@
                                 <li>If no notifications exist, the UI will show a <strong>"No new notifications"</strong> message.</li>
                             </ul>
 
-                            <img src="/report_app/application_images/web10.PNG" alt="Description of Image" class="images-notification">
+                            <img src="application_images/web10.PNG" alt="Description of Image" class="images-notification">
                         
                             <h3>Relevant Code:</h3>
                         
@@ -479,7 +580,7 @@
                                 through REST API calls.
                             </p>
 
-                            <img src="/report_app/application_images/web11.PNG" alt="Description of Image" class="images-notification">
+                            <img src="application_images/web11.PNG" alt="Description of Image" class="images-notification">
                         
                             <h3>Key Features:</h3>
                             <ul>
@@ -550,7 +651,7 @@
                             <li>Backend returns a success response, and the UI displays confirmation.</li>
                         </ol>
 
-                        <img src="/report_app/application_images/web9.PNG" alt="Description of Image" class="images-notification">
+                        <img src="application_images/web9.PNG" alt="Description of Image" class="images-notification">
 
                         <h3>Relevant Code:</h3>
 
@@ -707,13 +808,76 @@
             <li><strong>description:</strong> Detailed sign description</li>
             <li><strong>category:</strong> Classification by type</li>
             <li><strong>subcategory:</strong> Classification by subtype</li>
-            <li><strong>hasAssociatedSign:</strong>Sign that indicates When the restriction is over</li>
+            <li><strong>hasAssociatedSign:</strong>Sign that indicates when the restriction is over</li>
             <li><strong>isLocatedAt:</strong>Where the sign is located(intersection, roundabout, rural area)</li>
-            <li><strong>maxSpeed & minimumSpeed:</strong>Indicates what is the minimum or maximum speed allowd</li>
-            <li><strong>appliesTo:</strong>Indicate who is affected by it</li>
+            <li><strong>maxSpeed & minimumSpeed:</strong>Indicates what is the minimum or maximum speed allowed</li>
+            <li><strong>maxHeight & maxWidth & maxWeight:</strong>Vehicle dimensions allowed</li>
+            <li><strong>appliesTo:</strong>Indicate who is affected by it (ex. pedestrians, bicycles)</li>
             <li><strong>signEffect:</strong>Indicate where the sign effect applies</li>
-            <li><strong>hasShape, hasContourColor, hasBackgroundColor, hasSymbol:</strong> Visual attributes</li>
+            <li><strong>hasShape, hasContourColor, hasBackgroundColor, hasSymbol:</strong> Visual attributes for accessibility features</li>
+             <li><strong>validInSeason:</strong> The season it applies (ex. WinterTiresSign)</li>
+             <li><strong>validFromTime & validUntilTime:</strong>the hours between which it applies (ex. ChildrenSign)</li>
+            <li><strong>TrafficSignCategory class: </strong> The main categories each having other subcategories (ex. WarningSigns it has CrossWarningSigns, CurveWarning, ObstacleWarning, RoadConditionWarning)
+                <ul>
+                <li><strong>DirectionalSigns subclass</strong></li>
+                    <li><strong>InformationalSigns subclass</strong></li>
+                    <li><strong>MandatorySigns subclass</strong></li>
+                    <li><strong>PrioritySigns subclass</strong></li>
+                    <li><strong>ProhibitorySigns subclass</strong></li>
+                    <li><strong>WarningSigns subclass</strong></li>
+                </ul></li>
+            <li><strong>Shape class</strong>
+            <ul>
+                <li><strong>Circular</strong></li>
+                    <li><strong>Diamond</strong></li>
+                    <li><strong>Octagonal</strong></li>
+                    <li><strong>Inverted Triangle</strong></li>
+                    <li><strong>Rectangular</strong></li>
+                    <li><strong>Triungular</strong></li>
+                </ul></li>
+            <li><strong>Color class</strong>
+            <ul>
+            <li><strong>White</strong></li>
+                    <li><strong>Red</strong></li>
+                    <li><strong>Blue</strong></li>
+                    <li><strong>Green</strong></li>
+                    <li><strong>Yellow</strong></li>
+                </ul></li>
+        <li><strong>Seasons class</strong>
+            <ul>
+            <li><strong>Winter</strong></li>
+                    <li><strong>Spring</strong></li>
+                    <li><strong>Autumn</strong></li>
+                    <li><strong>Summer</strong></li>
+                </ul></li>
+        </li>
+
+        <li><strong>TrafficParticipants class</strong>
+            <ul>
+            <li><strong>Vehicles</strong></li>
+                 <ul>
+            <li><strong>AutoVehicles</strong></li>
+                <li><strong>Carts</strong></li>
+                      <li><strong>Motorcycles</strong></li>
+                     <li><strong>AnimaDrawnVehicles</strong></li>
+
+                </ul></li>
+                <li><strong>Pedestrians</strong></li>
+                <li><strong>Animals</strong></li>
+
+                </li>
         </ul>
+        </li>
+
+                <li><strong>Symbol class</strong>
+            <ul>
+            <li><strong>ArrowIcon</strong></li>
+                    <li><strong>SharpCurveIcon</strong></li>
+                    <li><strong>Bicycles</strong></li>
+                    <li><strong>TruckIcon</strong></li>
+                    <li><strong>PedestrianIcon</strong></li>
+                </ul></li>
+        </li>
         <p>SPARQL queries efficiently retrieve categorized traffic sign data, ensuring structured and semantic-rich information representation.</p>
     </section>
 
@@ -731,7 +895,7 @@
                 </ul>
             </li>
 
-            <img src="/report_app/application_images/web12.PNG" alt="Description of Image" class="images-notification">
+            <img src="application_images/web12.PNG" alt="Description of Image" class="images-notification">
 
             
             <li class="list-item"><strong>When the screen width is greater than 1350px or no form is open:</strong>
@@ -803,7 +967,7 @@
             For this model configuration, we set it to undergo 60,000 iterations, but the best results (in terms of <em>mAP</em>) were achieved at 50,000 iterations. 
             In the following picture we can see all available classes in GTSRB:
         </p>
-        <img src="/report_app/application_images/classes.jpg" class="class-image">
+        <img src="application_images/classes.jpg" class="class-image">
         <p>
             This model performed worse than the first in terms of accuracy and traffic sign identification capabilities because we significantly reduced the complexity of the dataset. 
             Many of the images retained had low luminosity or other features that affected the model’s learning capacity. The training of this model on a GPU took about 16 hours.
@@ -811,7 +975,7 @@
         </p>
 
         <p>In the next figure we see a test run on an image with a Yield sign: </p>
-        <img src="/report_app/application_images/predictions.jpg" class="class-image">
+        <img src="application_images/predictions.jpg" class="class-image">
     </section>
 
 
