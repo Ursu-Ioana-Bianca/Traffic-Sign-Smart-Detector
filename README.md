@@ -10,6 +10,7 @@
 - [Contributors](#contributors)
 
 - Demo link: [https://drive.google.com/drive/folders/1_6uWKVgwmnib8rO7A3BnS4_mrdRJT7bg?usp=sharing](https://drive.google.com/drive/folders/1pIYUEcc0tGRQcs1fVcLdyKx-bzNyHtSl?usp=sharing)
+- - Swagger Api doc: http://127.0.0.1:5000/apidocs/
 
 ## Project description
 
