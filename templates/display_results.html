@@ -40,6 +40,18 @@
         </div>
         {% endfor %}
     </div>
+
+     <div class="back-button">
+        <button id="back-button" class="button">Back to Home</button>
+    </div>
+    <script>
+
+
+        const backButton = document.getElementById('back-button');
+        backButton.addEventListener("click", () => {
+           window.location.href = "/home";
+        });
+        </script>
 </div>
 </body>
 </html>
